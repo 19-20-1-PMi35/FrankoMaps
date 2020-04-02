@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DataAccess.Entities
 {
-    public class Admin
+    public class User
     {
         public int Id { get; set; }
         public string Name { get; set; }
