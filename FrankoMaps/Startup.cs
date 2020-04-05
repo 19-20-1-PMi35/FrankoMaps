@@ -26,7 +26,7 @@ namespace FrankoMaps
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+          
             services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<DistanceRepository>();
