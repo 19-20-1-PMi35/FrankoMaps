@@ -26,6 +26,20 @@ namespace FrankoMaps.Services
             CreateGraph();
             dijkstras = new DijkstrasAlgorithm(graph);
         }
+        private void GetTheShortestPath(int fromPId, int toPId)
+        {
+            int from = indexes.FirstOrDefault(k => k.Value == fromPId).Key;
+            int to = indexes.FirstOrDefault(k => k.Value == toPId).Key;
+
+            dijkstras.DijkstraAlgo(from);
+            List<int> path = dijkstras.GetPathForVertex(to);
+
+            int[] pointsId = new int[path.Count];
+            for(int i = 0; i < path.Count; ++i)
+            {
+                pointsId[i] = indexes[path[i]];
+            }
+        }
         private void CreateGraph()
         {
             List<Distance> distances = repository.GetItems();
