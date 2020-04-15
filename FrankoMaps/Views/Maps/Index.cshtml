@@ -4,7 +4,7 @@
 
 <style>
     .maps-container {
-        border: solid 1px black;
+        /*border: solid 1px black;*/
         overflow: scroll;
         position: relative;
     }
@@ -17,7 +17,7 @@
 
 <form class="form-inline mb-3">
         <label for="select1" class="col-form-label">Choose start point:</label>
-        <select class="form-control ml-3" id="select1" style="width: 150px;">
+        <select class="form-control ml-3" id="select1" style="width: 150px;" onchange="changeStartPoint(value)">
             @foreach (var point in ViewBag.Points)
             {
                 <option value="@point.Id">@point.Name</option>
@@ -25,7 +25,7 @@
         </select>
 
         <label for="select2" class="col-form-label ml-3">Choose end point:</label>
-        <select class="form-control ml-3" id="select2" style="width: 150px;">
+        <select class="form-control ml-3" id="select2" style="width: 150px;" onchange="changeEndPoint(value)">
             @foreach (var point in ViewBag.Points)
             {
                 <option value="@point.Id">@point.Name</option>
@@ -40,7 +40,7 @@
         @foreach (var point in ViewBag.Points)
         {
             <circle cx="@point.X" cy="@point.Y" r="4" stroke="#7d7d7d" stroke-width="2" fill="#f5f7fa"
-            style="cursor: pointer;" onclick="test(cx, cy)"/>
+            style="cursor: pointer;" onclick="test(@point.Id)" id="point-@point.Id"/>
         }
         <polyline points="" style="fill:none; stroke:black" id="line"></polyline>
     </svg>
@@ -52,6 +52,9 @@
     <script>
       points = [];
 
+      startPointId = undefined;
+      endPointId = undefined;
+
       onInit();
 
       function onInit() {
@@ -59,13 +62,13 @@
       }
 
       function getAllPoints() {
-        $.get('/Points/GetPoints', (allPoints) => {
-            points = allPoints;
-        });
+        fetch('/Points/GetPoints')
+            .then(response => response.json())
+            .then(allPoints => points = allPoints);
       }
         
-      function test(x, y){
-          console.log(x, y);
+      function test(x) {
+          console.log(x);
       }
 
       function getTheShortestPath() {
@@ -75,16 +78,49 @@
           var select2 = document.getElementById("select2");
           var toId = select2.options[select2.selectedIndex].value;
 
-          $.get('/Maps/GetFromTo', {fromId: fromId, toId: toId}, (path) => {
-            let linePoints = "";
-            for (let i = 0; i < path.length; ++i) {
-                var point = points.find(p => p.id == path[i]);
-                if (point) {
-                  linePoints += `${point.x},${point.y} `;
+          fetch(`/Maps/GetFromTo?fromId=${fromId}&toId=${toId}`)
+            .then(response => response.json())
+            .then(path => {
+                let linePoints = "";
+
+                for (let i = 0; i < path.length; ++i) {
+                    var point = points.find(p => p.id == path[i]);
+
+                    if (point)
+                        linePoints += `${point.x},${point.y} `;
                 }
+
+                document.getElementById("line").setAttribute("points", linePoints);
             }
-            document.getElementById("line").setAttribute("points", linePoints);
-          });
-        }
+          );
+      }
+
+      function changeStartPoint(pointId) {
+          if(startPointId) {
+              let oldPoint = document.getElementById(`point-${startPointId}`);
+              oldPoint.setAttribute('stroke', '#7d7d7d');
+              oldPoint.setAttribute('stroke-width', 2);
+          }
+
+          startPointId = pointId;
+
+          var point = document.getElementById(`point-${pointId}`);
+          point.setAttribute('stroke', '#00b31e');
+          point.setAttribute('stroke-width', 4);
+      }
+
+      function changeEndPoint(pointId) {
+          if(endPointId) {
+              let oldPoint = document.getElementById(`point-${endPointId}`);
+              oldPoint.setAttribute('stroke', '#7d7d7d');
+              oldPoint.setAttribute('stroke-width', 2);
+          }
+
+          endPointId = pointId;
+
+          var point = document.getElementById(`point-${pointId}`);
+          point.setAttribute('stroke', '#bf0600');
+          point.setAttribute('stroke-width', 4);
+      }
     </script>
 }
