@@ -2,35 +2,89 @@
     ViewData["Title"] = "Maps Page";
 }
 
-<div style="border: solid 1px black; height: 80vh">
-    @* <h1 class="display-4">Welcome</h1> *@
-    @* 1100 600 *@
-    @* <svg width="100%" height="100%">
-        <circle cx="100" cy="300" r="2"/>
-        <circle cx="325" cy="150" r="2"/>
-        <circle cx="550" cy="150" r="2"/>
-        <circle cx="775" cy="150" r="2"/>
-        <circle cx="1000" cy="300" r="2"/>
-        <circle cx="775" cy="450" r="2"/>
-        <circle cx="550" cy="450" r="2"/>
-        <circle cx="325" cy="450" r="2"/>
-        <circle cx="550" cy="300" r="2"/>
-        <polyline points="100,300 325,450 550,300" style="fill:none;stroke:black;"/>
-    </svg> *@
-    <svg width="100%" height="100%">
+<style>
+    .maps-container {
+        border: solid 1px black;
+        overflow: scroll;
+        position: relative;
+    }
+    .svg-container {
+        position: absolute;
+        height: 1180px;
+        width: 1524px;
+    }
+</style>
+
+<form class="form-inline mb-3">
+        <label for="select1" class="col-form-label">Choose start point:</label>
+        <select class="form-control ml-3" id="select1" style="width: 150px;">
+            @foreach (var point in ViewBag.Points)
+            {
+                <option value="@point.Id">@point.Name</option>
+            }
+        </select>
+
+        <label for="select2" class="col-form-label ml-3">Choose end point:</label>
+        <select class="form-control ml-3" id="select2" style="width: 150px;">
+            @foreach (var point in ViewBag.Points)
+            {
+                <option value="@point.Id">@point.Name</option>
+            }
+        </select>
+
+        <button type="button" class="btn btn-primary ml-3" onclick="getTheShortestPath()">Find the shortest path</button>
+</form>
+
+<div class="maps-container">
+    <svg class="svg-container">
         @foreach (var point in ViewBag.Points)
         {
             <circle cx="@point.X" cy="@point.Y" r="4" stroke="#7d7d7d" stroke-width="2" fill="#f5f7fa"
-            style="cursor: pointer;" onclick="test()"/>
+            style="cursor: pointer;" onclick="test(cx, cy)"/>
         }
+        <polyline points="" style="fill:none; stroke:black" id="line"></polyline>
     </svg>
+    <img src="https://res.cloudinary.com/diakiv/image/upload/v1586881393/main_f1_siuthk.svg" alt="">
 </div>
 
 @section Scripts
 {
     <script>
-      function test(){
-          console.log("saddas");
+      points = [];
+
+      onInit();
+
+      function onInit() {
+        getAllPoints();
       }
+
+      function getAllPoints() {
+        $.get('/Points/GetPoints', (allPoints) => {
+            points = allPoints;
+        });
+      }
+        
+      function test(x, y){
+          console.log(x, y);
+      }
+
+      function getTheShortestPath() {
+          var select1 = document.getElementById("select1");
+          var fromId = select1.options[select1.selectedIndex].value;
+
+          var select2 = document.getElementById("select2");
+          var toId = select2.options[select2.selectedIndex].value;
+
+          $.get('/Maps/GetFromTo', {fromId: fromId, toId: toId}, (path) => {
+            let linePoints = "";
+            for (let i = 0; i < path.length; ++i) {
+                var point = points.find(p => p.id == path[i]);
+                if (point) {
+                  linePoints += `${point.x},${point.y} `;
+                }
+            }
+            document.getElementById("line").setAttribute("points", linePoints);
+          });
+        }
     </script>
 }

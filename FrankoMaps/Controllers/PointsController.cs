@@ -10,19 +10,16 @@ using FrankoMaps.Services;
 
 namespace FrankoMaps.Controllers
 {
-    public class MapsController : Controller
+    public class PointsController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly DistancesService _distanceService;
+        private readonly ILogger<PointsController> _logger;
         private readonly PointsService _pointsService;
 
-        public MapsController(
-            ILogger<HomeController> logger,
-            DistancesService distancesService,
+        public PointsController(
+            ILogger<PointsController> logger,
             PointsService pointsService)
         {
             _logger = logger;
-            _distanceService = distancesService;
             _pointsService = pointsService;
         }
 
@@ -31,9 +28,9 @@ namespace FrankoMaps.Controllers
             ViewBag.Points = _pointsService.GetPoints();
             return View();
         }
-        public int[] GetFromTo(int fromId, int toId)
+        public List<PointViewModel> GetPoints(int fromId, int toId)
         {
-            return _distanceService.GetTheShortestPath(fromId, toId);
+            return _pointsService.GetPoints();
         }
     }
 }

@@ -26,7 +26,7 @@ namespace FrankoMaps.Services
             CreateGraph();
             dijkstras = new DijkstrasAlgorithm(graph);
         }
-        private void GetTheShortestPath(int fromPId, int toPId)
+        public int[] GetTheShortestPath(int fromPId, int toPId)
         {
             int from = indexes.FirstOrDefault(k => k.Value == fromPId).Key;
             int to = indexes.FirstOrDefault(k => k.Value == toPId).Key;
@@ -39,6 +39,8 @@ namespace FrankoMaps.Services
             {
                 pointsId[i] = indexes[path[i]];
             }
+
+            return pointsId;
         }
         private void CreateGraph()
         {
