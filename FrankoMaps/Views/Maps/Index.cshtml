@@ -18,6 +18,7 @@
 <form class="form-inline mb-3">
         <label for="select1" class="col-form-label">Choose start point:</label>
         <select class="form-control ml-3" id="select1" style="width: 150px;" onchange="changeStartPoint(value)">
+            <option value="" selected disabled hidden>Start point</option>
             @foreach (var point in ViewBag.Points)
             {
                 <option value="@point.Id">@point.Name</option>
@@ -26,6 +27,7 @@
 
         <label for="select2" class="col-form-label ml-3">Choose end point:</label>
         <select class="form-control ml-3" id="select2" style="width: 150px;" onchange="changeEndPoint(value)">
+            <option value="" selected disabled hidden>End point</option>
             @foreach (var point in ViewBag.Points)
             {
                 <option value="@point.Id">@point.Name</option>
@@ -39,8 +41,8 @@
     <svg class="svg-container">
         @foreach (var point in ViewBag.Points)
         {
-            <circle cx="@point.X" cy="@point.Y" r="4" stroke="#7d7d7d" stroke-width="2" fill="#f5f7fa"
-            style="cursor: pointer;" onclick="test(@point.Id)" id="point-@point.Id"/>
+            <circle cx="@point.X" cy="@point.Y" r="4" stroke="#7d7d7d" stroke-width="2" fill="#f5f7fa" 
+            id="point-@point.Id" data-toggle="tooltip" title="@point.Name"/>
         }
         <polyline points="" style="fill:none; stroke:black" id="line"></polyline>
     </svg>
@@ -59,6 +61,8 @@
 
       function onInit() {
         getAllPoints();
+        
+        $('[data-toggle="tooltip"]').tooltip();
       }
 
       function getAllPoints() {
@@ -66,33 +70,25 @@
             .then(response => response.json())
             .then(allPoints => points = allPoints);
       }
-        
-      function test(x) {
-          console.log(x);
-      }
 
       function getTheShortestPath() {
-          var select1 = document.getElementById("select1");
-          var fromId = select1.options[select1.selectedIndex].value;
+          if (startPointId && endPointId && startPointId != endPointId) {
+              fetch(`/Maps/GetFromTo?fromId=${startPointId}&toId=${endPointId}`)
+                .then(response => response.json())
+                .then(path => {
+                    let linePoints = "";
 
-          var select2 = document.getElementById("select2");
-          var toId = select2.options[select2.selectedIndex].value;
+                    for (let i = 0; i < path.length; ++i) {
+                        var point = points.find(p => p.id == path[i]);
 
-          fetch(`/Maps/GetFromTo?fromId=${fromId}&toId=${toId}`)
-            .then(response => response.json())
-            .then(path => {
-                let linePoints = "";
+                        if (point)
+                            linePoints += `${point.x},${point.y} `;
+                    }
 
-                for (let i = 0; i < path.length; ++i) {
-                    var point = points.find(p => p.id == path[i]);
-
-                    if (point)
-                        linePoints += `${point.x},${point.y} `;
+                    document.getElementById("line").setAttribute("points", linePoints);
                 }
-
-                document.getElementById("line").setAttribute("points", linePoints);
-            }
-          );
+              );
+          }
       }
 
       function changeStartPoint(pointId) {
