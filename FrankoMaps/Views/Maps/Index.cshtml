@@ -15,36 +15,38 @@
     }
 </style>
 
+<p>Select points from the drop-down lists or choose them on the map.</p>
+
 <form class="form-inline mb-3">
-        <label for="select1" class="col-form-label">Choose start point:</label>
-        <select class="form-control ml-3" id="select1" style="width: 150px;" onchange="changeStartPoint(value)">
-            <option value="" selected disabled hidden>Start point</option>
-            @foreach (var point in ViewBag.Points)
-            {
-                <option value="@point.Id">@point.Name</option>
-            }
-        </select>
+    <label for="select1" class="col-form-label">Choose start point:</label>
+    <select class="form-control ml-3" id="select1" style="width: 150px;" onchange="changeStartPoint(value)">
+        <option value="-1" selected disabled hidden>Start point</option>
+        @foreach (var point in ViewBag.Points)
+        {
+            <option value="@point.Id">@point.Name</option>
+        }
+    </select>
 
-        <label for="select2" class="col-form-label ml-3">Choose end point:</label>
-        <select class="form-control ml-3" id="select2" style="width: 150px;" onchange="changeEndPoint(value)">
-            <option value="" selected disabled hidden>End point</option>
-            @foreach (var point in ViewBag.Points)
-            {
-                <option value="@point.Id">@point.Name</option>
-            }
-        </select>
+    <label for="select2" class="col-form-label ml-3">Choose end point:</label>
+    <select class="form-control ml-3" id="select2" style="width: 150px;" onchange="changeEndPoint(value)">
+        <option value="-1" selected disabled hidden>End point</option>
+        @foreach (var point in ViewBag.Points)
+        {
+            <option value="@point.Id">@point.Name</option>
+        }
+    </select>
 
-        <button type="button" class="btn btn-primary ml-3" onclick="getTheShortestPath()">Find the shortest path</button>
+    <button type="button" class="btn btn-primary ml-3" onclick="getTheShortestPath()">Find the shortest path</button>
 </form>
 
 <div class="maps-container">
     <svg class="svg-container">
         @foreach (var point in ViewBag.Points)
         {
-            <circle cx="@point.X" cy="@point.Y" r="4" stroke="#7d7d7d" stroke-width="2" fill="#f5f7fa" 
-            id="point-@point.Id" data-toggle="tooltip" title="@point.Name"/>
+            <circle cx="@point.X" cy="@point.Y" r="4" stroke="#000000" stroke-width="1.5" fill="#f5f7fa" 
+            id="point-@point.Id" style="cursor: pointer;" data-toggle="tooltip" title="@point.Name" onclick="changePoints(@point.Id)"/>
         }
-        <polyline points="" style="fill:none; stroke:black" id="line"></polyline>
+        <polyline points="" style="fill:none; stroke:#004085; stroke-width:2" id="line"></polyline>
     </svg>
     <img src="https://res.cloudinary.com/diakiv/image/upload/v1586881393/main_f1_siuthk.svg" alt="">
 </div>
@@ -91,32 +93,64 @@
           }
       }
 
+      function changePoints(pointId) {
+          if (startPointId == undefined) {
+              document.getElementById('select1').value = pointId;
+              changeStartPoint(pointId);
+          }
+
+          else if (startPointId == pointId) {
+              document.getElementById('select1').value = -1;
+              removeStartPoint();
+          }
+
+          else if (endPointId == undefined) {
+              document.getElementById('select2').value = pointId;
+              changeEndPoint(pointId);
+          }
+
+          else if (endPointId == pointId) {
+              document.getElementById('select2').value = -1;
+              removeEndPoint();
+          }
+      }
+
+      function removeStartPoint() {
+          let oldPoint = document.getElementById(`point-${startPointId}`);
+          oldPoint.setAttribute('stroke', '#000000');
+          oldPoint.setAttribute('r', 4);
+          startPointId = undefined;
+      }
+
+      function removeEndPoint() {
+          let oldPoint = document.getElementById(`point-${endPointId}`);
+          oldPoint.setAttribute('stroke', '#000000');
+          oldPoint.setAttribute('r', 4);
+          endPointId = undefined;
+      }
+
       function changeStartPoint(pointId) {
           if(startPointId) {
-              let oldPoint = document.getElementById(`point-${startPointId}`);
-              oldPoint.setAttribute('stroke', '#7d7d7d');
-              oldPoint.setAttribute('stroke-width', 2);
+              removeStartPoint();
           }
 
           startPointId = pointId;
 
           var point = document.getElementById(`point-${pointId}`);
           point.setAttribute('stroke', '#00b31e');
-          point.setAttribute('stroke-width', 4);
+          point.setAttribute('r', 5);
       }
 
       function changeEndPoint(pointId) {
           if(endPointId) {
-              let oldPoint = document.getElementById(`point-${endPointId}`);
-              oldPoint.setAttribute('stroke', '#7d7d7d');
-              oldPoint.setAttribute('stroke-width', 2);
+              removeEndPoint();
           }
 
           endPointId = pointId;
 
           var point = document.getElementById(`point-${pointId}`);
           point.setAttribute('stroke', '#bf0600');
-          point.setAttribute('stroke-width', 4);
+          point.setAttribute('r', 5);
       }
     </script>
 }
