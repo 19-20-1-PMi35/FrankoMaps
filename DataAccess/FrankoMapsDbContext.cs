@@ -10,8 +10,6 @@ namespace DataAccess
     public class FrankoMapsDbContext : DbContext
     {
         public FrankoMapsDbContext(): base() { }
-
-        public DbSet<User> Users { get; set; }
         public DbSet<Distance> Distances { get; set; }
         public DbSet<Map> Maps { get; set; }
         public DbSet<Point> Points { get; set; }

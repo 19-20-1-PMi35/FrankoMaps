@@ -10,7 +10,6 @@ namespace DataAccess.Entities
         public string Image { get; set; }        
         public int UserId { get; set; }
 
-        public User User { get; set; }
         public List<Point> Points { get; set; }
     }
 }

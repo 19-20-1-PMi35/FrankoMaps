@@ -33,12 +33,10 @@ namespace FrankoMaps
             services.AddScoped<DistanceRepository>();
             services.AddScoped<PointRepository>();
             services.AddScoped<MapRepository>();
-            services.AddScoped<UserRepository>();
 
             services.AddScoped<DistancesService>();
             services.AddScoped<PointsService>();
             services.AddScoped<MapsService>();
-            services.AddScoped<UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
