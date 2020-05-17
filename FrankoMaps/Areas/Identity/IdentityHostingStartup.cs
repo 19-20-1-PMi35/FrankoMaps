@@ -20,7 +20,15 @@ namespace FrankoMaps.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("ApplicationUserDbContextConnection")));
 
-                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<ApplicationUser>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = true;
+
+                    options.SignIn.RequireConfirmedEmail = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                })
                     .AddEntityFrameworkStores<ApplicationUserDbContext>();
             });
         }
