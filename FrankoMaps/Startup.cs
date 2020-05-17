@@ -27,6 +27,7 @@ namespace FrankoMaps
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
           
             services.AddAutoMapper(typeof(Startup));
 
@@ -57,6 +58,7 @@ namespace FrankoMaps
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -64,6 +66,7 @@ namespace FrankoMaps
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
