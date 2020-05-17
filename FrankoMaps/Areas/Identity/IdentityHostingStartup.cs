@@ -22,13 +22,14 @@ namespace FrankoMaps.Areas.Identity
 
                 services.AddDefaultIdentity<ApplicationUser>(options =>
                 {
-                    options.SignIn.RequireConfirmedAccount = true;
+                    options.SignIn.RequireConfirmedAccount = false;
 
                     options.SignIn.RequireConfirmedEmail = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase = false;
                     options.Password.RequireNonAlphanumeric = false;
                 })
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationUserDbContext>();
             });
         }

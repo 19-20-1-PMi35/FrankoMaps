@@ -24,17 +24,20 @@ namespace FrankoMaps.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -54,8 +57,12 @@ namespace FrankoMaps.Areas.Identity.Pages.Account
             [Required]
             [DataType(DataType.Text)]
             [Display(Name = "Last Name")]
-
             public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Role Name")]
+            public string RoleName { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -94,6 +101,15 @@ namespace FrankoMaps.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    // Check if role already exists
+                    var role = await _roleManager.RoleExistsAsync(Input.RoleName);
+                    if (!role)
+                    {
+                        await _roleManager.CreateAsync(new IdentityRole { Name = Input.RoleName });
+                        _logger.LogInformation("Create {0}: {1}", Input.RoleName, result.Succeeded);
+                    }
+                    await _userManager.AddToRoleAsync(user, Input.RoleName);
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
