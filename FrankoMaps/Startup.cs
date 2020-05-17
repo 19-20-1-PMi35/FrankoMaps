@@ -27,18 +27,17 @@ namespace FrankoMaps
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
           
             services.AddAutoMapper(typeof(Startup));
 
             services.AddScoped<DistanceRepository>();
             services.AddScoped<PointRepository>();
             services.AddScoped<MapRepository>();
-            services.AddScoped<UserRepository>();
 
             services.AddScoped<DistancesService>();
             services.AddScoped<PointsService>();
             services.AddScoped<MapsService>();
-            services.AddScoped<UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +58,7 @@ namespace FrankoMaps
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -66,6 +66,7 @@ namespace FrankoMaps
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
