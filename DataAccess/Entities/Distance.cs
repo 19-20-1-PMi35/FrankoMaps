@@ -11,6 +11,6 @@ namespace DataAccess.Entities
         public int FromPointId { get; set; }
         public int ToPointId { get; set; }
         public double Weight { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }
