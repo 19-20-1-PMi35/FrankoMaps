@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
 namespace FrankoMaps.Models
 {
     public class MapViewModel
