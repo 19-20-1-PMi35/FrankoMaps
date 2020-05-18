@@ -35,9 +35,6 @@ namespace FrankoMaps.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            string userId = _userManager.GetUserId(User);
-
-            ViewBag.UserId = userId;
             return View();
         }
 

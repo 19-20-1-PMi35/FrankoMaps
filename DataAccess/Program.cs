@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DataAccess.Entities;
+using DataAccess.Repositories;
+using System;
 
 namespace DataAccess
 {
