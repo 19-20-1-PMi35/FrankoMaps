@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FrankoMaps.Models;
@@ -18,25 +13,31 @@ namespace FrankoMaps.Controllers
     public class MapsController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly DistancesService _distanceService;
         private readonly PointsService _pointsService;
+        private readonly DistancesService _distanceService;
+        private readonly MapsService _mapService;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public MapsController(
             ILogger<HomeController> logger,
-            DistancesService distancesService,
             PointsService pointsService,
+            DistancesService distanceService,
+            MapsService mapService,
             UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
-            _distanceService = distancesService;
             _pointsService = pointsService;
+            _distanceService = distanceService;
+            _mapService = mapService;
             _userManager = userManager;
         }
 
         [HttpGet]
         public ActionResult Create()
         {
+            string userId = _userManager.GetUserId(User);
+
+            ViewBag.UserId = userId;
             return View();
         }
 
@@ -44,10 +45,7 @@ namespace FrankoMaps.Controllers
         [HttpPost]
         public ActionResult Create(MapViewModel map)
         {
-            Map newMap = new Map() { Image = map.Image, UserId = _userManager.GetUserId(HttpContext.User) };
-
-            MapRepository mapRepository = new MapRepository();
-            //mapRepository.Create(newMap);
+            _mapService.CreateNewMap(map, _userManager.GetUserId(User));
 
             return RedirectToAction("Index", "Home");
         }
