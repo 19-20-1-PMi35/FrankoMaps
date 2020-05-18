@@ -1,17 +1,33 @@
 using DataAccess.Repositories;
 using AutoMapper;
+using DataAccess.Entities;
+using FrankoMaps.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using FrankoMaps.Areas.Identity.Data;
 
 namespace FrankoMaps.Services
 {
     public class MapsService
     {
-        private readonly MapRepository repository;
+        private readonly MapRepository _repository;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public MapsService(MapRepository mapRepository, IMapper mapper)
+        public MapsService(MapRepository mapRepository, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
-            repository = mapRepository;
+            _repository = mapRepository;
             _mapper = mapper;
+            _userManager = userManager;
+        }
+
+        [Authorize(Roles = "Admin")]
+        public void CreateNewMap(MapViewModel map, string userId)
+        {
+            Map newMap = _mapper.Map<Map>(map);
+            newMap.UserId = userId;
+
+            _repository.Create(newMap);
         }
     }
 }
