@@ -6,6 +6,7 @@ using DataAccess.Repositories;
 using FrankoMaps.Areas.Identity.Data;
 using FrankoMaps.Models;
 using FrankoMaps.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,6 +32,21 @@ namespace FrankoMaps.Controllers
         {
             ViewBag.Distances = _distanceService.GetDistances();
             return View();
+        }
+
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult Create(DistanceViewModel distance)
+        {
+            _distanceService.Create(distance, _userManager.GetUserId(User));
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
