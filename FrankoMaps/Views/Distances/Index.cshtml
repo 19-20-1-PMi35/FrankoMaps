@@ -32,6 +32,8 @@
 
 <h2 style="text-align:center">Distances</h2>
 
+<a asp-controller="Distances" asp-action="Create">Create new distance</a>
+
 <div class="row justify-content-center">
 	<table>
 		<tr>
@@ -51,7 +53,7 @@
 				<td>@distance.Weight</td>
 				<td>@distance.UserId</td>
 				<td>
-					@Html.ActionLink("Update", "Edit", new { Id = distance.Id }) | 
+					@Html.ActionLink("Update", "Edit", new { Id = distance.Id }) |
 					@Html.ActionLink("Delete", "Delete", new { Id = distance.Id })
 				</td>
 			</tr>

@@ -46,7 +46,7 @@ namespace FrankoMaps.Controllers
         {
             _distanceService.Create(distance, _userManager.GetUserId(User));
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Distance");
         }
 
         [HttpGet]
