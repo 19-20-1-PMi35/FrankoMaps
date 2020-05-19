@@ -8,6 +8,7 @@ using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 using FrankoMaps.Areas.Identity.Data;
 using System;
+using System.Collections.Generic;
 
 namespace FrankoMaps.Controllers
 {
@@ -18,8 +19,6 @@ namespace FrankoMaps.Controllers
         private readonly DistancesService _distanceService;
         private readonly MapsService _mapService;
         private readonly UserManager<ApplicationUser> _userManager;
-        private int X = -1;
-        private int Y = -1;
 
         public MapsController(
             ILogger<HomeController> logger,
@@ -45,22 +44,9 @@ namespace FrankoMaps.Controllers
         [HttpPost]
         public ActionResult Create(MapViewModel map)
         {
-            _mapService.CreateNewMap(map, _userManager.GetUserId(User));
+            _mapService.Create(map, _userManager.GetUserId(User));
 
             return RedirectToAction("Index", "Home");
-        }
-
-        [HttpPost]
-        public ActionResult SetVariable(string value)
-        {
-            string[] mouseXY = value.Split(' ');
-            mouseXY[0] = mouseXY[0].Replace('.', ',');
-            mouseXY[1] = mouseXY[1].Replace('.', ',');
-
-            X = (int)Math.Round(Convert.ToDouble(mouseXY[0]));
-            Y = (int)Math.Round(Convert.ToDouble(mouseXY[1]));
-
-            return Json(new { success = true, x = X, y = Y });
         }
 
         public IActionResult Index()

@@ -22,7 +22,7 @@ namespace FrankoMaps.Services
         }
 
         [Authorize(Roles = "Admin")]
-        public void CreateNewMap(MapViewModel map, string userId)
+        public void Create(MapViewModel map, string userId)
         {
             Map newMap = _mapper.Map<Map>(map);
             newMap.UserId = userId;

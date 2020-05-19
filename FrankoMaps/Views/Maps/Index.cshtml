@@ -38,7 +38,6 @@
 	</select>
 
 	<button type="button" class="btn btn-primary ml-3" onclick="getTheShortestPath()">Find the shortest path</button>
-
 </form>
 
 <div class="maps-container">
@@ -161,10 +160,10 @@
 				var relY = event.pageY - $(this).offset().top;
 				var relBoxCoords = "(" + relX + "," + relY + ")";
 				$(".mouse-cords").text(relBoxCoords);
-				$.post('/Maps/SetVariable',
-					{ value: relX + " " + relY }, function (data) {
-						alert("Success " + data.success + " " + data.x + " " + data.y);
-				});
+				var result = confirm("Add new point (" + parseInt(relX) + ", " + parseInt(relY) + ")?");
+				if (result == true) {
+					window.location.href = "Points/Create?mapId=" + 1 + "&x=" + parseInt(relX) + "&y=" + parseInt(relY);
+				}
 			});
 		});
 	</script>
