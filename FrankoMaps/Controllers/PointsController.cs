@@ -10,6 +10,7 @@ using FrankoMaps.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using FrankoMaps.Areas.Identity.Data;
+using DataAccess.Repositories;
 
 namespace FrankoMaps.Controllers
 {
@@ -51,6 +52,21 @@ namespace FrankoMaps.Controllers
         {
             ViewBag.Points = _pointsService.GetPoints();
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            return View(_pointsService.GetPoint(id));
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            PointRepository pointRepository = new PointRepository();
+            pointRepository.Delete(id);
+
+            return RedirectToAction("Index", "Points");
         }
     }
 }
