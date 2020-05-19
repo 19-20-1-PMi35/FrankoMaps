@@ -45,9 +45,20 @@ namespace FrankoMaps.Controllers
 
             return RedirectToAction("Index", "Distances");
         }
+
+        [HttpGet]
         public IActionResult Delete(int id)
         {
-            return View();
+            return View(_distanceService.GetDistance(id));
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            DistanceRepository distanceRepository = new DistanceRepository();
+            distanceRepository.Delete(id);
+
+            return RedirectToAction("Index", "Distances");
         }
     }
 }

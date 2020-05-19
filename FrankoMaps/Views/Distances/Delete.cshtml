@@ -43,9 +43,8 @@
             @Html.DisplayFor(model => model.UserId)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+	<form asp-controller="Distances" asp-action="Delete">
+		<input type="submit" value="DeleteConfirmed" class="btn btn-danger" /> |
+		<a asp-action="Index">Back to List</a>
+	</form>
 </div>
