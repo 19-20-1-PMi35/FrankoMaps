@@ -23,7 +23,7 @@ namespace FrankoMaps.Services
             repository = distanceRepository;
             _mapper = mapper;
             _pointRepository = pointRepository;
-            
+
             CreateGraph();
             dijkstras = new DijkstrasAlgorithm(graph);
         }

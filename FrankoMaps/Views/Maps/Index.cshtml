@@ -50,7 +50,7 @@
 	<svg class="svg-container" id="map">
 		@foreach (var point in ViewBag.Points)
 		{
-			@if (point.IsVisible)
+			@if (point.IsVisible || User.IsInRole("Admin"))
 			{
 				<circle cx="@point.X" cy="@point.Y" r="4" stroke="#000000" stroke-width="1.5" fill="#f5f7fa"
 						id="point-@point.Id" style="cursor: pointer;" data-toggle="tooltip" title="@point.Name" onclick="changePoints(@point.Id)" />

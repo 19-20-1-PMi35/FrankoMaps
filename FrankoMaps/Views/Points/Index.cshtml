@@ -35,6 +35,7 @@
 				<td>@point.MapId</td>
 				<td>@point.UserId</td>
 				<td>
+					@Html.ActionLink("Update", "Edit", new { Id = point.Id }) |
 					@Html.ActionLink("Delete", "Delete", new { Id = point.Id })
 				</td>
 			</tr>

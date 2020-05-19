@@ -31,7 +31,7 @@ namespace DataAccess.Repositories
             dbContext.Set<Point>().Remove(item);
             dbContext.SaveChanges();
         }
-        public void Update(Point item)
+        public void UpdateAsync(Point item)
         {
             dbContext.Entry(item).State = EntityState.Modified;
             dbContext.SaveChanges();

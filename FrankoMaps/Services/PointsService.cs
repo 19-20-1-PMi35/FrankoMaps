@@ -26,7 +26,13 @@ namespace FrankoMaps.Services
 
             repository.Create(newPoint);
         }
+        public void UpdatePoint(PointViewModel point, string userId)
+        {
+            Point newPoint = _mapper.Map<Point>(point);
+            newPoint.UserId = userId;
 
+            repository.UpdateAsync(newPoint);
+        }
         public PointViewModel GetPoint(int id)
         {
             Point distance = repository.GetItem(id);

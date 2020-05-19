@@ -39,7 +39,7 @@ namespace DataAccess.Repositories
             entity.ToPointId = item.ToPointId;
             entity.Weight = item.Weight;
             entity.UserId = item.UserId;
-
+            //dbContext.Entry(item).State = EntityState.Modified;
             dbContext.SaveChanges();
         }
     }

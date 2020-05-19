@@ -48,6 +48,19 @@ namespace FrankoMaps.Controllers
             return RedirectToAction("Index", "Maps");
         }
 
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            return View(_pointsService.GetPoint(id));
+        }
+        [HttpPost]
+        public IActionResult Edit(PointViewModel point)
+        {
+            _pointsService.UpdatePoint(point, _userManager.GetUserId(User));
+
+            return RedirectToAction("Index", "Points");
+        }
+
         public IActionResult Index()
         {
             ViewBag.Points = _pointsService.GetPoints();

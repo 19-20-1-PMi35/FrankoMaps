@@ -12,11 +12,12 @@ namespace FrankoMaps.Models
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than 1")]
-
         public int ToPointId { get; set; }
+
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than 1")]
         public double Weight { get; set; }
+
         public string UserId { get; set; }
     }
 }
