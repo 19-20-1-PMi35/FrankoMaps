@@ -26,6 +26,13 @@ namespace FrankoMaps.Services
             CreateGraph();
             dijkstras = new DijkstrasAlgorithm(graph);
         }
+
+        public List<DistanceViewModel> GetDistances()
+        {
+            List<Distance> distances = repository.GetItems();
+            List<DistanceViewModel> distanceViewModels = _mapper.Map<List<DistanceViewModel>>(distances);
+            return distanceViewModels;
+        }
         public int[] GetTheShortestPath(int fromPId, int toPId)
         {
             int from = indexes.FirstOrDefault(k => k.Value == fromPId).Key;

@@ -1,0 +1,28 @@
+﻿
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Collapsed Borders</h2>
+<p>If you want the borders to collapse into one border, add the CSS border-collapse property.</p>
+
+<table style="width:100%">
+	<tr>
+		<th>Id</th>
+		<th>FromPointId</th>
+		<th>ToPointId</th>
+		<th>Weight</th>
+		<th>UserId</th>
+	</tr>
+	@foreach (var distance in ViewBag.Distances)
+	{
+		<tr>
+			<td>@distance.Id</td>
+			<td>@distance.FromPointId</td>
+			<td>@distance.ToPointId</td>
+			<td>@distance.Weight</td>
+			<td>@distance.UserId</td>
+		</tr>
+	}
+</table>
