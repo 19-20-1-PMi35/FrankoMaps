@@ -26,7 +26,19 @@ namespace FrankoMaps.Services
             CreateGraph();
             dijkstras = new DijkstrasAlgorithm(graph);
         }
+        public DistanceViewModel GetDistance(int id)
+        {
+            Distance distance = repository.GetItem(id);
+            DistanceViewModel distanceViewModel = _mapper.Map<DistanceViewModel>(distance);
+            return distanceViewModel;
+        }
+        public void UpdateDistance(DistanceViewModel distance, string userId)
+        {
+            Distance newDistance = _mapper.Map<Distance>(distance);
+            newDistance.UserId = userId;
 
+            repository.UpdateAsync(newDistance);
+        }
         public List<DistanceViewModel> GetDistances()
         {
             List<Distance> distances = repository.GetItems();

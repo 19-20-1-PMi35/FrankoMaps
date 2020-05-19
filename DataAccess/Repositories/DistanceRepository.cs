@@ -31,9 +31,15 @@ namespace DataAccess.Repositories
             dbContext.Set<Distance>().Remove(item);
             dbContext.SaveChanges();
         }
-        public void Update(Distance item)
+        public void UpdateAsync(Distance item)
         {
-            dbContext.Entry(item).State = EntityState.Modified;
+            var entity = GetItem(item.Id);
+            entity.Id = item.Id;
+            entity.FromPointId = item.FromPointId;
+            entity.ToPointId = item.ToPointId;
+            entity.Weight = item.Weight;
+            entity.UserId = item.UserId;
+
             dbContext.SaveChanges();
         }
     }
