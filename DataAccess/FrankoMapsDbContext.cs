@@ -26,6 +26,7 @@ namespace DataAccess
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=FrankoMapsDataBase;Trusted_Connection=True;");
+            optionsBuilder.EnableSensitiveDataLogging();
         }
     }
 }

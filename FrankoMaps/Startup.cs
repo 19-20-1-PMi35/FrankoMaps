@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using DataAccess.Repositories;
 using AutoMapper;
 using FrankoMaps.Services;
+using FrankoMaps.Repositories;
 
 namespace FrankoMaps
 {
@@ -34,10 +35,12 @@ namespace FrankoMaps
             services.AddScoped<DistanceRepository>();
             services.AddScoped<PointRepository>();
             services.AddScoped<MapRepository>();
+            services.AddScoped<ApplicationUserRepository>();
 
             services.AddScoped<DistancesService>();
             services.AddScoped<PointsService>();
             services.AddScoped<MapsService>();
+            services.AddScoped<ApplicationUserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
