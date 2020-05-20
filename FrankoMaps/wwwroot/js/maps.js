@@ -9,17 +9,14 @@ endPointId = undefined;
 onInit();
 
 function onInit() {
-getAllPoints();
-getAllMaps();
-//setContainersSize();
-
-$('[data-toggle="tooltip"]').tooltip();
+    getAllPoints();
+    getAllMaps();
 }
 
 function getAllPoints() {
-fetch('/Points/GetPoints')
-    .then(response => response.json())
-    .then(allPoints => points = allPoints);
+    fetch('/Points/GetPoints')
+        .then(response => response.json())
+        .then(allPoints => points = allPoints);
 }
 
 function getAllMaps() {
@@ -35,20 +32,20 @@ function getAllMaps() {
 }
 
 function setContainersSize(allMaps){
-for (let i = 0; i < allMaps.length; ++i) {
-    let mapImg = document.getElementById(`img-${allMaps[i].id}`);
-    let svgCointainer = document.getElementById(`svg-container-${allMaps[i].id}`);
-    let mapContainer = document.getElementById(`map-container-${allMaps[i].id}`);
-    
-    svgCointainer.setAttribute("height", `${mapImg.height}px`);
-    svgCointainer.setAttribute("width", `${mapImg.width}px`);
-    
-    mapContainer.style.display = 'none';
-}
+    for (let i = 0; i < allMaps.length; ++i) {
+        let mapImg = document.getElementById(`img-${allMaps[i].id}`);
+        let svgCointainer = document.getElementById(`svg-container-${allMaps[i].id}`);
+        let mapContainer = document.getElementById(`map-container-${allMaps[i].id}`);
+        
+        svgCointainer.setAttribute("height", `${mapImg.height}px`);
+        svgCointainer.setAttribute("width", `${mapImg.width}px`);
+        
+        mapContainer.style.display = 'none';
+    }
 
-currentMapId = allMaps[0].id;
-let mapContainer = document.getElementById(`map-container-${currentMapId}`);
-mapContainer.style.display = 'block';
+    currentMapId = allMaps[0].id;
+    let mapContainer = document.getElementById(`map-container-${currentMapId}`);
+    mapContainer.style.display = 'block';
 }
 
 function chooseMap(mapId){

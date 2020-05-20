@@ -40,7 +40,8 @@
 {
     <div class="maps-container" id="map-container-@map.Id">
         <svg class="svg-container" id="svg-container-@map.Id">
-            @foreach (var point in ViewBag.Points)
+            @{List<PointViewModel> points = ViewBag.Points;}
+            @foreach (var point in points.Where(p => p.MapId == map.Id))
             {
                 <circle cx="@point.X" cy="@point.Y" r="4" stroke="#000000" stroke-width="1.5" fill="#f5f7fa" 
                 id="point-@point.Id" style="cursor: pointer;" data-toggle="tooltip" title="@point.Name" onclick="changePoints(@point.Id)"/>
@@ -51,4 +52,12 @@
     </div>
 }
 
-<script src="~/js/maps.js"></script>
+
+<script src="~/js/maps.js" asp-append-version="true"></script>
+@section Scripts {
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+}
