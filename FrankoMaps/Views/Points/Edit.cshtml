@@ -26,13 +26,18 @@
 				<input asp-for="Y" class="form-control" />
 				<span asp-validation-for="Y" class="text-danger"></span>
 			</div>
+			<div class="form-group" hidden>
+				<label asp-for="MapId" class="control-label"></label>
+				<input asp-for="MapId" class="form-control" />
+				<span asp-validation-for="MapId" class="text-danger"></span>
+			</div>
 			<div class="form-group form-check">
 				<label class="form-check-label">
 					<input class="form-check-input" asp-for="IsVisible" /> @Html.DisplayNameFor(model => model.IsVisible)
 				</label>
 			</div>
 			<div class="form-group">
-				<input type="submit" value="Save" class="btn btn-primary" />
+				<input type="submit" value="Save" class="btn btn-primary btn-block" />
 			</div>
 		</form>
 		<div>
