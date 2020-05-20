@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataAccess;
+using DataAccess.Entities;
 using DataAccess.Repositories;
 using FrankoMaps.Areas.Identity.Data;
 using FrankoMaps.Models;
@@ -9,6 +13,7 @@ using FrankoMaps.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Logging;
 
 namespace FrankoMaps.Controllers
@@ -30,8 +35,28 @@ namespace FrankoMaps.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.Distances = _distanceService.GetDistances();
-            return View();
+            DistanceRepository distanceRepository = new DistanceRepository();
+            List<Distance> distances = distanceRepository.GetItems();
+
+            PointRepository pointRepository = new PointRepository();
+            List<Point> points = pointRepository.GetItems();
+
+            List<JoinViewModel> joined = new List<JoinViewModel>();
+            foreach (var distance in distances)
+            {
+                joined.Add(new JoinViewModel
+                {
+                    Id = distance.Id,
+                    FromPointId = distance.FromPointId,
+                    NameFrom = points.First(i => i.Id == distance.FromPointId).Name,
+                    ToPointId = distance.ToPointId,
+                    NameTo = points.First(i => i.Id == distance.ToPointId).Name,
+                    Weight = distance.Weight,
+                    UserId = distance.UserId
+                });
+            }
+
+            return View(joined);
         }
 
         [HttpGet]
