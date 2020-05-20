@@ -52,11 +52,16 @@ namespace FrankoMaps.Controllers
         public IActionResult Index()
         {
             ViewBag.Points = _pointsService.GetPoints();
+            ViewBag.Maps = _mapService.GetMaps();
             return View();
         }
         public int[] GetFromTo(int fromId, int toId)
         {
             return _distanceService.GetTheShortestPath(fromId, toId);
+        }
+        public List<MapViewModel> GetMaps()
+        {
+            return _mapService.GetMaps();
         }
     }
 }

@@ -5,6 +5,7 @@ using FrankoMaps.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using FrankoMaps.Areas.Identity.Data;
+using System.Collections.Generic;
 
 namespace FrankoMaps.Services
 {
@@ -28,6 +29,12 @@ namespace FrankoMaps.Services
             newMap.UserId = userId;
 
             _repository.Create(newMap);
+        }
+        public List<MapViewModel> GetMaps()
+        {
+            List<Map> maps = _repository.GetItems();
+            List<MapViewModel> mapViewModels = _mapper.Map<List<MapViewModel>>(maps);
+            return mapViewModels;
         }
     }
 }

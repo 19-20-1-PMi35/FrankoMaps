@@ -1,0 +1,7 @@
+.maps-container {
+    overflow: scroll;
+    position: relative;
+}
+.svg-container {
+    position: absolute;
+}

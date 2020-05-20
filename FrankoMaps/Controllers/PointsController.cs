@@ -66,6 +66,11 @@ namespace FrankoMaps.Controllers
             ViewBag.Points = _pointsService.GetPoints();
             return View();
         }
+        
+        public List<PointViewModel> GetPoints()
+        {
+            return _pointsService.GetPoints();
+        }
 
         [HttpGet]
         public IActionResult Delete(int id)
