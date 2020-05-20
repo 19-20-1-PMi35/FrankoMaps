@@ -5,36 +5,40 @@
 }
 
 <head>
-	<link href="~/css/CustomTable.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="~/css/table.css" />
 </head>
 
 <h2 style="text-align:center">Distances</h2>
 
 <a asp-controller="Distances" asp-action="Create">Create new distance</a>
 
-<div class="row justify-content-center">
-	<table>
-		<tr>
-			<th>Id</th>
-			<th>FromPointId</th>
-			<th>ToPointId</th>
-			<th>Weight</th>
-			<th>UserId</th>
-			<th>Action</th>
-		</tr>
-		@foreach (var distance in ViewBag.Distances)
-		{
+<div class="custom-scrollbar-css p-2">
+	<table class="table table-bordered table-striped mb-0">
+		<thead>
 			<tr>
-				<td>@distance.Id</td>
-				<td>@distance.FromPointId</td>
-				<td>@distance.ToPointId</td>
-				<td>@distance.Weight</td>
-				<td>@distance.UserId</td>
-				<td>
-					@Html.ActionLink("Update", "Edit", new { Id = distance.Id }) |
-					@Html.ActionLink("Delete", "Delete", new { Id = distance.Id })
-				</td>
+				<th>Id</th>
+				<th>FromPointId</th>
+				<th>ToPointId</th>
+				<th>Weight</th>
+				<th>UserId</th>
+				<th>Action</th>
 			</tr>
-		}
+		</thead>
+		<tbody>
+			@foreach (var distance in ViewBag.Distances)
+			{
+				<tr>
+					<td>@distance.Id</td>
+					<td>@distance.FromPointId</td>
+					<td>@distance.ToPointId</td>
+					<td>@distance.Weight</td>
+					<td>@distance.UserId</td>
+					<td>
+						@Html.ActionLink("Update", "Edit", new { Id = distance.Id }) |
+						@Html.ActionLink("Delete", "Delete", new { Id = distance.Id })
+					</td>
+				</tr>
+			}
+		</tbody>
 	</table>
 </div>
