@@ -32,6 +32,7 @@
 	</select>
 
 	<button type="button" class="btn btn-primary ml-3" onclick="getTheShortestPath()">Find the shortest path</button>
+	<button type="button" class="btn btn-warning ml-3"> <i class="fas fa-star"></i></button>
 </form>
 
 <div class="btn-group mb-3" role="group" aria-label="Basic example">
@@ -70,20 +71,18 @@
         })
     </script>
     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-	  {
+	{
 		<script>
-			$(document).ready(function () {
-				$("#map").click(function (event) {
-					var relX = event.pageX - $(this).offset().left;
-					var relY = event.pageY - $(this).offset().top;
-					var relBoxCoords = "(" + relX + "," + relY + ")";
-					$(".mouse-cords").text(relBoxCoords);
-					var result = confirm("Add new point (" + parseInt(relX) + ", " + parseInt(relY) + ")?");
-					if (result == true) {
-						window.location.href = "Points/Create?mapId=" + 1 + "&x=" + parseInt(relX) + "&y=" + parseInt(relY);
-					}
+				$(document).ready(function () {
+					$(".svg-container").click(function (event) {
+						var relX = event.pageX - $(this).offset().left;
+						var relY = event.pageY - $(this).offset().top;
+						var result = confirm("Add new point (" + parseInt(relX) + ", " + parseInt(relY) + ")?");
+						if (result == true) {
+							window.location.href = "Points/Create?mapId=" + currentMapId + "&x=" + parseInt(relX) + "&y=" + parseInt(relY);
+						}
+					});
 				});
-			});
 		</script>
-	  }
+	}
 }
