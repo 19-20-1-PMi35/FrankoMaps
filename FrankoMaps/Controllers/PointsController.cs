@@ -28,7 +28,7 @@ namespace FrankoMaps.Controllers
             ViewBag.Points = _pointsService.GetPoints();
             return View();
         }
-        public List<PointViewModel> GetPoints(int fromId, int toId)
+        public List<PointViewModel> GetPoints()
         {
             return _pointsService.GetPoints();
         }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 using FrankoMaps.Areas.Identity.Data;
+using System.Collections.Generic;
 
 namespace FrankoMaps.Controllers
 {
@@ -50,11 +51,16 @@ namespace FrankoMaps.Controllers
         public IActionResult Index()
         {
             ViewBag.Points = _pointsService.GetPoints();
+            ViewBag.Maps = _mapService.GetMaps();
             return View();
         }
         public int[] GetFromTo(int fromId, int toId)
         {
             return _distanceService.GetTheShortestPath(fromId, toId);
+        }
+        public List<MapViewModel> GetMaps()
+        {
+            return _mapService.GetMaps();
         }
     }
 }
