@@ -3,6 +3,7 @@ using AutoMapper;
 using System.Collections.Generic;
 using FrankoMaps.Models;
 using DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FrankoMaps.Services
 {
@@ -17,6 +18,27 @@ namespace FrankoMaps.Services
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin")]
+        public void Create(PointViewModel point, string userId)
+        {
+            Point newPoint = _mapper.Map<Point>(point);
+            newPoint.UserId = userId;
+
+            repository.Create(newPoint);
+        }
+        public void UpdatePoint(PointViewModel point, string userId)
+        {
+            Point newPoint = _mapper.Map<Point>(point);
+            newPoint.UserId = userId;
+
+            repository.UpdateAsync(newPoint);
+        }
+        public PointViewModel GetPoint(int id)
+        {
+            Point distance = repository.GetItem(id);
+            PointViewModel distanceViewModel = _mapper.Map<PointViewModel>(distance);
+            return distanceViewModel;
+        }
         public List<PointViewModel> GetPoints()
         {
             List<Point> points = repository.GetItems();

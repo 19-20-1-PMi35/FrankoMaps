@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 using FrankoMaps.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 
 namespace FrankoMaps.Controllers
@@ -43,7 +44,7 @@ namespace FrankoMaps.Controllers
         [HttpPost]
         public ActionResult Create(MapViewModel map)
         {
-            _mapService.CreateNewMap(map, _userManager.GetUserId(User));
+            _mapService.Create(map, _userManager.GetUserId(User));
 
             return RedirectToAction("Index", "Home");
         }

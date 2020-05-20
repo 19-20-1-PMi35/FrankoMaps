@@ -1,0 +1,48 @@
+﻿
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+	<link rel="stylesheet" href="~/css/table.css" />
+</head>
+
+<h2 style="text-align:center">Points</h2>
+
+<a asp-action="Index" asp-controller="Maps">Create new point by choosing it on map</a>
+
+<div class="custom-scrollbar-css p-2">
+	<table class="table table-bordered table-striped mb-0">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>X</th>
+				<th>Y</th>
+				<th>IsVisible</th>
+				<th>MapId</th>
+				<th>UserId</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var point in ViewBag.Points)
+			{
+				<tr>
+					<td>@point.Id</td>
+					<td>@point.Name</td>
+					<td>@point.X</td>
+					<td>@point.Y</td>
+					<td>@point.IsVisible</td>
+					<td>@point.MapId</td>
+					<td>@point.UserId</td>
+					<td>
+						@Html.ActionLink("Update", "Edit", new { Id = point.Id }) |
+						@Html.ActionLink("Delete", "Delete", new { Id = point.Id })
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

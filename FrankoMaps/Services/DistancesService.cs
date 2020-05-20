@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using FrankoMaps.Models;
 using System.Linq;
 using FrankoMaps.Algorithms;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FrankoMaps.Services
 {
@@ -22,9 +23,37 @@ namespace FrankoMaps.Services
             repository = distanceRepository;
             _mapper = mapper;
             _pointRepository = pointRepository;
-            
+
             CreateGraph();
             dijkstras = new DijkstrasAlgorithm(graph);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public void Create(DistanceViewModel map, string userId)
+        {
+            Distance newDistance = _mapper.Map<Distance>(map);
+            newDistance.UserId = userId;
+
+            repository.Create(newDistance);
+        }
+        public void UpdateDistance(DistanceViewModel distance, string userId)
+        {
+            Distance newDistance = _mapper.Map<Distance>(distance);
+            newDistance.UserId = userId;
+
+            repository.UpdateAsync(newDistance);
+        }
+        public DistanceViewModel GetDistance(int id)
+        {
+            Distance distance = repository.GetItem(id);
+            DistanceViewModel distanceViewModel = _mapper.Map<DistanceViewModel>(distance);
+            return distanceViewModel;
+        }
+        public List<DistanceViewModel> GetDistances()
+        {
+            List<Distance> distances = repository.GetItems();
+            List<DistanceViewModel> distanceViewModels = _mapper.Map<List<DistanceViewModel>>(distances);
+            return distanceViewModels;
         }
         public int[] GetTheShortestPath(int fromPId, int toPId)
         {
