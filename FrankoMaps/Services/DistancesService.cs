@@ -90,6 +90,10 @@ namespace FrankoMaps.Services
             foreach (var map in mapViewModels)
             {
                 List<PointViewModel> currentPoints = pointViewModels.Where(p => p.MapId == map.Id).ToList();
+                if (currentPoints.Count == 0)
+                {
+                    return;
+                }
                 List<int> pointsId = currentPoints.Select(p => p.Id).ToList();
                 Dictionary<int, int> indexes = new Dictionary<int, int>();
 
