@@ -1,0 +1,59 @@
+﻿
+@{
+	ViewData["Title"] = "Manage";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 style="text-align:center">Manage FrankoMaps</h1>
+
+<p>
+	<button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="test()">
+		Manage Points
+	</button>
+</p>
+<div class="collapse" id="collapseExample">
+	<div id="divmain" class="card card-body">
+	</div>
+</div>
+<p>
+	<button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2" onclick="test2()">
+		Manage distances
+	</button>
+</p>
+<div class="collapse" id="collapseExample2">
+	<div id="divmain2" class="card card-body">
+	</div>
+</div>
+<p>
+	<button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3" onclick="test3()">
+		Add new map
+	</button>
+</p>
+<div class="collapse" id="collapseExample3">
+	<div id="divmain3" class="card card-body">
+	</div>
+</div>
+
+<script>
+	function test() {
+		var divmain = document.getElementById("divmain");
+		$.post("/Points/Index",
+			function (data) {
+				divmain.innerHTML = data;
+			});
+	}
+	function test2() {
+		var divmain = document.getElementById("divmain2");
+		$.post("/Distances/Index",
+			function (data) {
+				divmain.innerHTML = data;
+			});
+	}
+	function test3() {
+		var divmain = document.getElementById("divmain3");
+		$.post("/Maps/CreateMap",
+			function (data) {
+				divmain.innerHTML = data;
+			});
+	}
+</script>

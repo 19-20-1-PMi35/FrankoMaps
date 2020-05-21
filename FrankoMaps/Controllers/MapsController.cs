@@ -34,8 +34,8 @@ namespace FrankoMaps.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet]
-        public ActionResult Create()
+        [HttpPost]
+        public ActionResult CreateMap()
         {
             return View();
         }
@@ -46,7 +46,7 @@ namespace FrankoMaps.Controllers
         {
             _mapService.Create(map, _userManager.GetUserId(User));
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Maps");
         }
 
         public IActionResult Index()
