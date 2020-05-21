@@ -49,7 +49,7 @@
 		<button type="button" class="btn btn-secondary" onclick="chooseMap(@map.Id)">@map.Name</button>
 	}
 </div>
-@*<p style="color:gray;font-style:italic;font:small">*Double click on map to add new point</p>*@
+
 @if (User.IsInRole("Admin"))
 {
 	<br />
@@ -74,7 +74,7 @@
 							id="point-@point.Id" style="cursor: pointer;" data-toggle="tooltip" title="@point.Name" onclick="changePoints(@point.Id)" />
 				}
 			}
-			<polyline points="" style="fill:none; stroke:#004085; stroke-width:2" id="line-@map.Id"></polyline>
+			<polyline points="" style="fill:none; stroke:#dc3545; stroke-width:2.75" id="line-@map.Id"></polyline>
 		</svg>
 		<img src="@map.Image" alt="" id="img-@map.Id" onload="{
 				let mapImg = document.getElementById('img-@map.Id');
