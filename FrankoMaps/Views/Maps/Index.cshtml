@@ -108,11 +108,12 @@
                 var secondDopwDown = document.getElementById("select2");
                 var endPoint = secondDopwDown.options[secondDopwDown.selectedIndex].value;
                 var endPointName = secondDopwDown.options[secondDopwDown.selectedIndex].text;
-                
                 $.post("/Favourite/Create",
                     { start: startPoint, end: endPoint, startName: startPointName, endName: endPointName },
                     function (data) {
-                        alert("Succesfully saved to database: " + data.startPointRoute + " " + data.endPointRoute);
+                        if (data.success) {
+							alert("Succesfully saved to database: " + startPointName + " " + endPointName);
+						}
                     });
             }
         </script>
