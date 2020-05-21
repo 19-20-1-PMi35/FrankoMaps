@@ -29,7 +29,8 @@ function chooseMap(mapId){
 
 function getTheShortestPath() {
     if (startPointId && endPointId && startPointId != endPointId) {
-        fetch(`/Maps/GetFromTo?fromId=${startPointId}&toId=${endPointId}`)
+        let mapId = points.find(p => p.id == startPointId).mapId;
+        fetch(`/Maps/GetFromTo?fromId=${startPointId}&toId=${endPointId}&mapId=${mapId}`)
         .then(response => response.json())
         .then(path => {
             let linePoints = "";
@@ -41,7 +42,7 @@ function getTheShortestPath() {
                     linePoints += `${point.x},${point.y} `;
             }
 
-            document.getElementById("line").setAttribute("points", linePoints);
+            document.getElementById(`line-${mapId}`).setAttribute("points", linePoints);
         }
         );
     }

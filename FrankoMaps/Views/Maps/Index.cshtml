@@ -59,7 +59,7 @@
                             id="point-@point.Id" style="cursor: pointer;" data-toggle="tooltip" title="@point.Name" onclick="changePoints(@point.Id)" />
                 }
             }
-            <polyline points="" style="fill:none; stroke:#004085; stroke-width:2" id="line"></polyline>
+            <polyline points="" style="fill:none; stroke:#004085; stroke-width:2" id="line-@map.Id"></polyline>
         </svg>
         <img src="@map.Image" alt="" id="img-@map.Id" onload="{
 				let mapImg = document.getElementById('img-@map.Id');
