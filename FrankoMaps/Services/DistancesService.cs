@@ -13,19 +13,24 @@ namespace FrankoMaps.Services
     {
         private readonly DistanceRepository repository;
         private readonly PointRepository _pointRepository;
+        private readonly MapRepository _mapRepository;
         private readonly IMapper _mapper;
         private double [,] graph;
         private DijkstrasAlgorithm dijkstras;
         private Dictionary<int, int> indexes;
 
-        public DistancesService(DistanceRepository distanceRepository, IMapper mapper, PointRepository pointRepository)
+        private Dictionary<int, double[,]> graphs;
+        private Dictionary<int, Dictionary<int, int>> allIndexes;
+        private Dictionary<int, DijkstrasAlgorithm> algorithms;
+
+        public DistancesService(DistanceRepository distanceRepository, IMapper mapper, PointRepository pointRepository, MapRepository mapRepository)
         {
             repository = distanceRepository;
             _mapper = mapper;
             _pointRepository = pointRepository;
+            _mapRepository = mapRepository;
 
-            CreateGraph();
-            dijkstras = new DijkstrasAlgorithm(graph);
+            CreateGraphs();
         }
 
         [Authorize(Roles = "Admin")]
@@ -71,26 +76,36 @@ namespace FrankoMaps.Services
 
             return pointsId;
         }
-        private void CreateGraph()
+        private void CreateGraphs()
         {
+            List<Map> maps = _mapRepository.GetItems();
             List<Distance> distances = repository.GetItems();
             List<Point> points = _pointRepository.GetItems();
 
             List<DistanceViewModel> distanceViewModels = _mapper.Map<List<DistanceViewModel>>(distances);
             List<PointViewModel> pointViewModels = _mapper.Map<List<PointViewModel>>(points);
+            List<MapViewModel> mapViewModels = _mapper.Map<List<MapViewModel>>(maps);
 
-            List<int> pointsId = pointViewModels.Select(p => p.Id).ToList();
+            allIndexes = new Dictionary<int, Dictionary<int, int>>();
+            graphs = new Dictionary<int, double[,]>();
+            algorithms = new Dictionary<int, DijkstrasAlgorithm>();
 
-            indexes = new Dictionary<int, int>();
+            foreach (var map in mapViewModels)
+            {
+                List<PointViewModel> currentPoints = pointViewModels.Where(p => p.MapId == map.Id).ToList();
+                List<int> pointsId = currentPoints.Select(p => p.Id).ToList();
+                Dictionary<int, int> indexes = new Dictionary<int, int>();
             
             for(int i = 0; i < pointsId.Count; ++i)
             {
                 indexes.Add(i, pointsId[i]);
             }
 
-            int n = pointViewModels.Count;
+                allIndexes.Add(map.Id, indexes);
 
-            graph = new double[n, n];
+                int n = currentPoints.Count;
+
+                double[,] graph = new double[n, n];
 
             foreach (DistanceViewModel distance in distanceViewModels)
             {
@@ -100,6 +115,11 @@ namespace FrankoMaps.Services
                 graph[i, j] = distance.Weight;
                 graph[j, i] = distance.Weight;
             }
+
+                graphs.Add(map.Id, graph);
+
+                algorithms.Add(map.Id, new DijkstrasAlgorithm(graph));
+            }            
         } 
     }
 }
