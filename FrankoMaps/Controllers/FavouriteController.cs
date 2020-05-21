@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using FrankoMaps.Areas.Identity.Data;
 using DataAccess.Repositories;
+using DataAccess.Entities;
 
 namespace FrankoMaps.Controllers
 {
@@ -26,13 +27,12 @@ namespace FrankoMaps.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateRoad(int start, int end, string nameStart, string nameEnd)
-        {
-            FavouriteViewModel favourite = new FavouriteViewModel() { PointA_Id = start, PointB_Id = end , User_Id = _userManager.GetUserId(User)};
-            _favouritesService.Create(favourite, _userManager.GetUserId(User));
-            return Json(new { startPoint = nameStart, endPoint = nameEnd });
-        }
-       
+         public ActionResult Create(int start, int end, string nameStart, string nameEnd)
+         {
+             FavouriteViewModel favourite = new FavouriteViewModel() { PointA_Id = start, PointB_Id = end , User_Id = _userManager.GetUserId(User)};
+             _favouritesService.Create(favourite, _userManager.GetUserId(User));
+             return Json(new { startPointRoute = nameStart, endPointRoute = nameEnd });
+         }
 
         public IActionResult Index()
         {
