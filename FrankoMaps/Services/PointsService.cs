@@ -19,17 +19,15 @@ namespace FrankoMaps.Services
         }
 
         [Authorize(Roles = "Admin")]
-        public void Create(PointViewModel point, string userId)
+        public void Create(PointViewModel point)
         {
             Point newPoint = _mapper.Map<Point>(point);
-            newPoint.UserId = userId;
 
             repository.Create(newPoint);
         }
-        public void UpdatePoint(PointViewModel point, string userId)
+        public void UpdatePoint(PointViewModel point)
         {
             Point newPoint = _mapper.Map<Point>(point);
-            newPoint.UserId = userId;
 
             repository.UpdateAsync(newPoint);
         }

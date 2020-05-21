@@ -61,6 +61,7 @@ namespace FrankoMaps.Controllers
             return View(joined);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -71,38 +72,44 @@ namespace FrankoMaps.Controllers
         [HttpPost]
         public ActionResult Create(DistanceViewModel distance)
         {
-            _distanceService.Create(distance, _userManager.GetUserId(User));
+            distance.UserId = _userManager.GetUserId(User);
+            _distanceService.Create(distance);
 
-            return RedirectToAction("Home", "Manage");
+            return RedirectToAction("Manage", "Home");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
             return View(_distanceService.GetDistance(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(DistanceViewModel distance)
         {
-            _distanceService.UpdateDistance(distance, _userManager.GetUserId(User));
+            distance.UserId = _userManager.GetUserId(User);
+            _distanceService.UpdateDistance(distance);
 
-            return RedirectToAction("Home", "Manage");
+            return RedirectToAction("Manage", "Home");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete(int id)
         {
             return View(_distanceService.GetDistance(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
             DistanceRepository distanceRepository = new DistanceRepository();
             distanceRepository.Delete(id);
 
-            return RedirectToAction("Home", "Manage");
+            return RedirectToAction("Manage", "Home");
         }
     }
 }

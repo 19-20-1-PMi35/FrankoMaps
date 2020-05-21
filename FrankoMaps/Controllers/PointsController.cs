@@ -30,6 +30,7 @@ namespace FrankoMaps.Controllers
             _userManager = userManager;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Create(int mapId, int x, int y)
         {
@@ -43,20 +44,25 @@ namespace FrankoMaps.Controllers
         [HttpPost]
         public ActionResult Create(PointViewModel point)
         {
-            _pointsService.Create(point, _userManager.GetUserId(User));
+            point.UserId = _userManager.GetUserId(User);
+            _pointsService.Create(point);
 
             return RedirectToAction("Manage", "Home");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
             return View(_pointsService.GetPoint(id));
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(PointViewModel point)
         {
-            _pointsService.UpdatePoint(point, _userManager.GetUserId(User));
+            point.UserId = _userManager.GetUserId(User);
+            _pointsService.UpdatePoint(point);
 
             return RedirectToAction("Manage", "Home");
         }
@@ -73,6 +79,7 @@ namespace FrankoMaps.Controllers
             return _pointsService.GetPoints();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete(int id)
         {
