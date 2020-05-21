@@ -44,7 +44,8 @@ namespace FrankoMaps.Controllers
         [HttpPost]
         public ActionResult Create(MapViewModel map)
         {
-            _mapService.Create(map, _userManager.GetUserId(User));
+            map.UserId = _userManager.GetUserId(User);
+            _mapService.Create(map);
 
             return RedirectToAction("Index", "Maps");
         }

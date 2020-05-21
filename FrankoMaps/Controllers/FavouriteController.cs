@@ -30,7 +30,7 @@ namespace FrankoMaps.Controllers
          public ActionResult Create(int start, int end)
          {
              FavouriteViewModel favourite = new FavouriteViewModel() { PointA_Id = start, PointB_Id = end , User_Id = _userManager.GetUserId(User)};
-             _favouritesService.Create(favourite, _userManager.GetUserId(User));
+             _favouritesService.Create(favourite);
 
              return Json(new { success = true });
          }

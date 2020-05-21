@@ -20,16 +20,14 @@ namespace FrankoMaps.Services
         }
 
         [Authorize(Roles = "Admin")]
-        public void Create(FavouriteViewModel favourite, string userId)
+        public void Create(FavouriteViewModel favourite)
         {
             Favourite newFavourite = _mapper.Map<Favourite>(favourite);
-            newFavourite.User_Id = userId;
             repository.Create(newFavourite);
         }
-        public void UpdateFavourite(FavouriteViewModel favourite, string userId)
+        public void UpdateFavourite(FavouriteViewModel favourite)
         {
             Favourite newFavourite = _mapper.Map<Favourite>(favourite);
-            newFavourite.User_Id = userId;
 
             repository.UpdateAsync(newFavourite);
         }

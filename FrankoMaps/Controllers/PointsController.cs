@@ -43,7 +43,8 @@ namespace FrankoMaps.Controllers
         [HttpPost]
         public ActionResult Create(PointViewModel point)
         {
-            _pointsService.Create(point, _userManager.GetUserId(User));
+            point.UserId = _userManager.GetUserId(User);
+            _pointsService.Create(point);
 
             return RedirectToAction("Manage", "Home");
         }
@@ -56,7 +57,8 @@ namespace FrankoMaps.Controllers
         [HttpPost]
         public IActionResult Edit(PointViewModel point)
         {
-            _pointsService.UpdatePoint(point, _userManager.GetUserId(User));
+            point.UserId = _userManager.GetUserId(User);
+            _pointsService.UpdatePoint(point);
 
             return RedirectToAction("Manage", "Home");
         }

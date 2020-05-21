@@ -31,17 +31,15 @@ namespace FrankoMaps.Services
         }
 
         [Authorize(Roles = "Admin")]
-        public void Create(DistanceViewModel map, string userId)
+        public void Create(DistanceViewModel map)
         {
             Distance newDistance = _mapper.Map<Distance>(map);
-            newDistance.UserId = userId;
 
             repository.Create(newDistance);
         }
-        public void UpdateDistance(DistanceViewModel distance, string userId)
+        public void UpdateDistance(DistanceViewModel distance)
         {
             Distance newDistance = _mapper.Map<Distance>(distance);
-            newDistance.UserId = userId;
 
             repository.UpdateAsync(newDistance);
         }
