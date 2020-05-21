@@ -26,6 +26,7 @@ namespace FrankoMaps.Controllers
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
         [HttpPost]
          public ActionResult Create(int start, int end)
          {

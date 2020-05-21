@@ -61,6 +61,7 @@ namespace FrankoMaps.Controllers
             return View(joined);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Create()
         {
@@ -77,12 +78,14 @@ namespace FrankoMaps.Controllers
             return RedirectToAction("Manage", "Home");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
             return View(_distanceService.GetDistance(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(DistanceViewModel distance)
         {
@@ -92,12 +95,14 @@ namespace FrankoMaps.Controllers
             return RedirectToAction("Manage", "Home");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete(int id)
         {
             return View(_distanceService.GetDistance(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {

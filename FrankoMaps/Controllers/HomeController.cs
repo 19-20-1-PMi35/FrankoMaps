@@ -10,6 +10,7 @@ using DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
 using FrankoMaps.Areas.Identity.Data;
 using DataAccess.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FrankoMaps.Controllers
 {
@@ -24,11 +25,13 @@ namespace FrankoMaps.Controllers
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Manage()
         {
             return View();

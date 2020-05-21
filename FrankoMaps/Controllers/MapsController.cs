@@ -34,6 +34,7 @@ namespace FrankoMaps.Controllers
             _userManager = userManager;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult CreateMap()
         {
