@@ -19,7 +19,11 @@
 		<option value="-1" selected disabled hidden>Start point</option>
 		@foreach (var point in ViewBag.Points)
 		{
-			<option value="@point.Id">@point.Name</option>
+            if (point.IsVisible || User.IsInRole("Admin"))
+            {
+                <option value="@point.Id">@point.Name</option>
+            }
+			
 		}
 	</select>
 
@@ -28,7 +32,10 @@
 		<option value="-1" selected disabled hidden>End point</option>
 		@foreach (var point in ViewBag.Points)
 		{
-			<option value="@point.Id">@point.Name</option>
+            if (point.IsVisible || User.IsInRole("Admin"))
+            {
+                <option value="@point.Id">@point.Name</option>
+            }
 		}
 	</select>
 
