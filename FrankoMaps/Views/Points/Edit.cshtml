@@ -1,0 +1,48 @@
+﻿@model FrankoMaps.Models.PointViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+	<div class="col-md-4">
+		<h1>Edit point</h1>
+		<hr />
+		<form asp-action="Edit">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group">
+				<label asp-for="Name" class="control-label"></label>
+				<input asp-for="Name" class="form-control" />
+				<span asp-validation-for="Name" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="X" class="control-label"></label>
+				<input asp-for="X" class="form-control" />
+				<span asp-validation-for="X" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Y" class="control-label"></label>
+				<input asp-for="Y" class="form-control" />
+				<span asp-validation-for="Y" class="text-danger"></span>
+			</div>
+			<div class="form-group" hidden>
+				<label asp-for="MapId" class="control-label"></label>
+				<input asp-for="MapId" class="form-control" />
+				<span asp-validation-for="MapId" class="text-danger"></span>
+			</div>
+			<div class="form-group form-check">
+				<label class="form-check-label">
+					<input class="form-check-input" asp-for="IsVisible" /> @Html.DisplayNameFor(model => model.IsVisible)
+				</label>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-primary btn-block" />
+			</div>
+		</form>
+		<div>
+			<a asp-action="Manage" asp-controller="Home">Back to List</a>
+		</div>
+	</div>
+</div>
+

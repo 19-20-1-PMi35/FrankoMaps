@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DataAccess.Repositories;
+using AutoMapper;
+using FrankoMaps.Services;
+using FrankoMaps.Repositories;
 
 namespace FrankoMaps
 {
@@ -24,6 +28,21 @@ namespace FrankoMaps
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
+          
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<DistanceRepository>();
+            services.AddScoped<PointRepository>();
+            services.AddScoped<MapRepository>();
+            services.AddScoped<ApplicationUserRepository>();
+            services.AddScoped<FavouriteRepository>();
+
+            services.AddScoped<DistancesService>();
+            services.AddScoped<PointsService>();
+            services.AddScoped<MapsService>();
+            services.AddScoped<ApplicationUserService>();
+            services.AddScoped<FavouritesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +63,7 @@ namespace FrankoMaps
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -51,6 +71,7 @@ namespace FrankoMaps
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }

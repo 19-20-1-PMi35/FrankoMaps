@@ -1,0 +1,43 @@
+﻿@model List<JoinViewModel>
+
+@{
+	ViewData["Title"] = "Index";
+	Layout = null;
+}
+
+<head>
+	<link rel="stylesheet" href="~/css/table.css" />
+</head>
+
+@*<h2 style="text-align:center">Distances</h2>*@
+<div>
+	<a asp-controller="Distances" asp-action="Create">Create new distance</a>
+	<div class="custom-scrollbar-css p-2">
+		<table class="table table-bordered table-striped mb-0">
+			<thead>
+				<tr>
+					<th>From</th>
+					<th>To</th>
+					<th>Weight</th>
+					<th>UserId</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var distance in Model)
+				{
+					<tr>
+						<td>@distance.NameFrom</td>
+						<td>@distance.NameTo</td>
+						<td>@distance.Weight</td>
+						<td>@distance.UserId</td>
+						<td>
+							@Html.ActionLink("Update", "Edit", new { Id = distance.Id }) |
+							@Html.ActionLink("Delete", "Delete", new { Id = distance.Id })
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
