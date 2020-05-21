@@ -47,7 +47,7 @@ namespace FrankoMaps.Controllers
             point.UserId = _userManager.GetUserId(User);
             _pointsService.Create(point);
 
-            return RedirectToAction("Manage", "Home");
+            return RedirectToAction("Index", "Maps");
         }
 
         [Authorize(Roles = "Admin")]
