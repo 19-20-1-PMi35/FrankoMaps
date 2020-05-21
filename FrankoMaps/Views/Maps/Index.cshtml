@@ -5,7 +5,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-    ViewData["Title"] = "Maps Page";
+	ViewData["Title"] = "Maps Page";
 }
 @{int firstMapId = ViewBag.Maps[0].Id;}
 
@@ -42,26 +42,29 @@
 		<button type="button" class="btn btn-secondary" onclick="chooseMap(@map.Id)">@map.Name</button>
 	}
 </div>
-
+@if (User.IsInRole("Admin"))
+{
+	<p style="color:gray;font-style:italic;font:small">*Double click on map to add new point</p>
+}
 
 @foreach (var map in ViewBag.Maps)
 {
-    <div class="maps-container" id="map-container-@map.Id">
-        <svg class="svg-container" id="svg-container-@map.Id">
-            @{
-                List<PointViewModel> points = ViewBag.Points;
-            }
-            @foreach (var point in points.Where(p => p.MapId == map.Id))
-            {
-                @if (point.IsVisible || User.IsInRole("Admin"))
-                {
-                    <circle cx="@point.X" cy="@point.Y" r="4" stroke="#000000" stroke-width="1.5" fill="#f5f7fa"
-                            id="point-@point.Id" style="cursor: pointer;" data-toggle="tooltip" title="@point.Name" onclick="changePoints(@point.Id)" />
-                }
-            }
-            <polyline points="" style="fill:none; stroke:#004085; stroke-width:2" id="line-@map.Id"></polyline>
-        </svg>
-        <img src="@map.Image" alt="" id="img-@map.Id" onload="{
+	<div class="maps-container" id="map-container-@map.Id" style="user-select:none">
+		<svg class="svg-container" id="svg-container-@map.Id">
+			@{
+				List<PointViewModel> points = ViewBag.Points;
+			}
+			@foreach (var point in points.Where(p => p.MapId == map.Id))
+			{
+				@if (point.IsVisible || User.IsInRole("Admin"))
+				{
+					<circle cx="@point.X" cy="@point.Y" r="4" stroke="#000000" stroke-width="1.5" fill="#f5f7fa"
+							id="point-@point.Id" style="cursor: pointer;" data-toggle="tooltip" title="@point.Name" onclick="changePoints(@point.Id)" />
+				}
+			}
+			<polyline points="" style="fill:none; stroke:#004085; stroke-width:2" id="line-@map.Id"></polyline>
+		</svg>
+		<img src="@map.Image" alt="" id="img-@map.Id" onload="{
 				let mapImg = document.getElementById('img-@map.Id');
 				let svgCointainer = document.getElementById('svg-container-@map.Id');
 				svgCointainer.setAttribute('height', `${mapImg.height}px`);
@@ -71,23 +74,23 @@
 					mapContainer.style.display = 'none';
 				}
 			}">
-    </div>
+	</div>
 }
 
 
 <script src="~/js/maps.js" asp-append-version="true"></script>
 @section Scripts {
-    <script>
+	<script>
 		currentMapId = Number('@firstMapId');
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
-    </script>
-    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-    {
-        <script>
+	</script>
+	@if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+	{
+		<script>
 			$(document).ready(function () {
-				$(".svg-container").click(function (event) {
+				$(".svg-container").dblclick(function (event) {
 					var relX = event.pageX - $(this).offset().left;
 					var relY = event.pageY - $(this).offset().top;
 					var result = confirm("Add new point (" + parseInt(relX) + ", " + parseInt(relY) + ")?");
@@ -96,27 +99,27 @@
 					}
 				});
 			});
-        </script>
-    }
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <script>
-            function saveFavouriteRote() {
-                var firstDopwDown = document.getElementById("select1");
-                var startPoint = firstDopwDown.options[firstDopwDown.selectedIndex].value;
-                var startPointName = firstDopwDown.options[firstDopwDown.selectedIndex].text;
-                var secondDopwDown = document.getElementById("select2");
-                var endPoint = secondDopwDown.options[secondDopwDown.selectedIndex].value;
-                var endPointName = secondDopwDown.options[secondDopwDown.selectedIndex].text;
-                $.post("/Favourite/Create",
-                    { start: startPoint, end: endPoint, startName: startPointName, endName: endPointName },
-                    function (data) {
-                        if (data.success) {
+		</script>
+	}
+	@if (SignInManager.IsSignedIn(User))
+	{
+		<script>
+			function saveFavouriteRote() {
+				var firstDopwDown = document.getElementById("select1");
+				var startPoint = firstDopwDown.options[firstDopwDown.selectedIndex].value;
+				var startPointName = firstDopwDown.options[firstDopwDown.selectedIndex].text;
+				var secondDopwDown = document.getElementById("select2");
+				var endPoint = secondDopwDown.options[secondDopwDown.selectedIndex].value;
+				var endPointName = secondDopwDown.options[secondDopwDown.selectedIndex].text;
+				$.post("/Favourite/Create",
+					{ start: startPoint, end: endPoint, startName: startPointName, endName: endPointName },
+					function (data) {
+						if (data.success) {
 							alert("Succesfully saved to database: " + startPointName + " " + endPointName);
 						}
-                    });
-            }
-        </script>
-    }
+					});
+			}
+		</script>
+	}
 
 }
