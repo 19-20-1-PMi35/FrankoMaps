@@ -5,7 +5,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
 @{
-	ViewData["Title"] = "Maps Page";
+    ViewData["Title"] = "Maps Page";
 }
 
 <link rel="stylesheet" href="~/css/maps.css" />
@@ -13,26 +13,26 @@
 <p>Select points from the drop-down lists or choose them on the map.</p>
 
 <form class="form-inline mb-3">
-	<label for="select1" class="col-form-label">Choose start point:</label>
-	<select class="form-control ml-3" id="select1" style="width: 150px;" onchange="changeStartPoint(value)">
-		<option value="-1" selected disabled hidden>Start point</option>
-		@foreach (var point in ViewBag.Points)
-		{
-			<option value="@point.Id">@point.Name</option>
-		}
-	</select>
+    <label for="select1" class="col-form-label">Choose start point:</label>
+    <select class="form-control ml-3" id="select1" style="width: 150px;" onchange="changeStartPoint(value)">
+        <option value="-1" selected disabled hidden>Start point</option>
+        @foreach (var point in ViewBag.Points)
+        {
+            <option value="@point.Id">@point.Name</option>
+        }
+    </select>
 
-	<label for="select2" class="col-form-label ml-3">Choose end point:</label>
-	<select class="form-control ml-3" id="select2" style="width: 150px;" onchange="changeEndPoint(value)">
-		<option value="-1" selected disabled hidden>End point</option>
-		@foreach (var point in ViewBag.Points)
-		{
-			<option value="@point.Id">@point.Name</option>
-		}
-	</select>
+    <label for="select2" class="col-form-label ml-3">Choose end point:</label>
+    <select class="form-control ml-3" id="select2" style="width: 150px;" onchange="changeEndPoint(value)">
+        <option value="-1" selected disabled hidden>End point</option>
+        @foreach (var point in ViewBag.Points)
+        {
+            <option value="@point.Id">@point.Name</option>
+        }
+    </select>
 
-	<button type="button" class="btn btn-primary ml-3" onclick="getTheShortestPath()">Find the shortest path</button>
-	<button type="button" class="btn btn-warning ml-3"> <i class="fas fa-star"></i></button>
+    <button type="button" class="btn btn-primary ml-3" onclick="getTheShortestPath()">Find the shortest path</button>
+    <button type="button" class="btn btn-warning ml-3" onclick="SaveFavouriteRoute()"> <i class="fas fa-star"></i></button>
 </form>
 
 <div class="btn-group mb-3" role="group" aria-label="Basic example">
@@ -52,8 +52,8 @@
             {
                 @if (point.IsVisible || User.IsInRole("Admin"))
                 {
-                    <circle cx="@point.X" cy="@point.Y" r="4" stroke="#000000" stroke-width="1.5" fill="#f5f7fa" 
-                    id="point-@point.Id" style="cursor: pointer;" data-toggle="tooltip" title="@point.Name" onclick="changePoints(@point.Id)"/>
+                    <circle cx="@point.X" cy="@point.Y" r="4" stroke="#000000" stroke-width="1.5" fill="#f5f7fa"
+                            id="point-@point.Id" style="cursor: pointer;" data-toggle="tooltip" title="@point.Name" onclick="changePoints(@point.Id)" />
                 }
             }
             <polyline points="" style="fill:none; stroke:#004085; stroke-width:2" id="line"></polyline>
@@ -71,18 +71,39 @@
         })
     </script>
     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-	{
-		<script>
-				$(document).ready(function () {
-					$(".svg-container").click(function (event) {
-						var relX = event.pageX - $(this).offset().left;
-						var relY = event.pageY - $(this).offset().top;
-						var result = confirm("Add new point (" + parseInt(relX) + ", " + parseInt(relY) + ")?");
-						if (result == true) {
-							window.location.href = "Points/Create?mapId=" + currentMapId + "&x=" + parseInt(relX) + "&y=" + parseInt(relY);
-						}
-					});
-				});
-		</script>
-	}
+    {
+        <script>
+            $(document).ready(function () {
+                $(".svg-container").click(function (event) {
+                    var relX = event.pageX - $(this).offset().left;
+                    var relY = event.pageY - $(this).offset().top;
+                    var result = confirm("Add new point (" + parseInt(relX) + ", " + parseInt(relY) + ")?");
+                    if (result == true) {
+                        window.location.href = "Points/Create?mapId=" + currentMapId + "&x=" + parseInt(relX) + "&y=" + parseInt(relY);
+                    }
+                });
+            });
+        </script>
+    }
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <script>
+            function SaveFavouriteRoute() {
+                var firstDropDown = document.getElementById("select1");
+                var startPoint = firstDropDown.options[firstDropDown.selectedIndex].value;
+                var startPointName = firstDropDown.options[firstDropDown.selectedIndex].text;
+                var secondDropDown = document.getElementById("select2");
+                var endPointName = secondDropDown.options[secondDropDown.selectedIndex].text;
+                var endPoint = secondDropDown.options[secondDropDown.selectedIndex].value;
+                        
+                $.post("/Favourite/CreateRoad",
+                    { start: startPoint, end: endPoint, nameStart: startPointName, nameEnd: endPointName},
+                    function (data) {
+                        alert("Succesfully saved to database: " + data.startPoint + " " + data.endPoint);
+                    });
+            }
+        </script>
+    }
+
+
 }

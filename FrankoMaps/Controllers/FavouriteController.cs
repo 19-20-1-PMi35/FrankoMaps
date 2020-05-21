@@ -26,10 +26,11 @@ namespace FrankoMaps.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(int start, int end)
+        public ActionResult CreateRoad(int start, int end, string nameStart, string nameEnd)
         {
-            FavouriteViewModel favourite = new FavouriteViewModel() { PointA_Id = start, PointB_Id = end };
-            return Json(new { startPoint = start, endPoint = end });
+            FavouriteViewModel favourite = new FavouriteViewModel() { PointA_Id = start, PointB_Id = end , User_Id = _userManager.GetUserId(User)};
+            _favouritesService.Create(favourite, _userManager.GetUserId(User));
+            return Json(new { startPoint = nameStart, endPoint = nameEnd });
         }
        
 
