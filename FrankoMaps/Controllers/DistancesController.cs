@@ -63,8 +63,10 @@ namespace FrankoMaps.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(int FromPointId, int ToPointId)
         {
+            ViewBag.FromPointId = FromPointId;
+            ViewBag.ToPointId = ToPointId;
             return View();
         }
 

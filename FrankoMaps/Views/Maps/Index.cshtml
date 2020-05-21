@@ -19,11 +19,11 @@
 		<option value="-1" selected disabled hidden>Start point</option>
 		@foreach (var point in ViewBag.Points)
 		{
-            if (point.IsVisible || User.IsInRole("Admin"))
-            {
-                <option value="@point.Id">@point.Name</option>
-            }
-			
+			if (point.IsVisible || User.IsInRole("Admin"))
+			{
+				<option value="@point.Id">@point.Name</option>
+			}
+
 		}
 	</select>
 
@@ -32,10 +32,10 @@
 		<option value="-1" selected disabled hidden>End point</option>
 		@foreach (var point in ViewBag.Points)
 		{
-            if (point.IsVisible || User.IsInRole("Admin"))
-            {
-                <option value="@point.Id">@point.Name</option>
-            }
+			if (point.IsVisible || User.IsInRole("Admin"))
+			{
+				<option value="@point.Id">@point.Name</option>
+			}
 		}
 	</select>
 
@@ -49,9 +49,14 @@
 		<button type="button" class="btn btn-secondary" onclick="chooseMap(@map.Id)">@map.Name</button>
 	}
 </div>
+@*<p style="color:gray;font-style:italic;font:small">*Double click on map to add new point</p>*@
 @if (User.IsInRole("Admin"))
 {
-	<p style="color:gray;font-style:italic;font:small">*Double click on map to add new point</p>
+	<br />
+	<span>
+		<i style="color:gray;font:small">*Double click on map to add new point</i>
+		<button type="button" class="btn ml-3" onclick="saveDistance()" title="Add new distance"> <i style="color:black" class="fas fa-route"></i></button>
+	</span>
 }
 
 @foreach (var map in ViewBag.Maps)
@@ -107,6 +112,20 @@
 				});
 			});
 		</script>
+		<script>
+			function saveDistance() {
+				var firstDopwDown = document.getElementById("select1");
+				var startPoint = firstDopwDown.options[firstDopwDown.selectedIndex].value;
+				var secondDopwDown = document.getElementById("select2");
+				var endPoint = secondDopwDown.options[secondDopwDown.selectedIndex].value;
+				if (startPoint >= 0 && endPoint >= 0) {
+					window.location.href = "Distances/Create?FromPointId=" + startPoint + "&ToPointId=" + endPoint;
+				}
+				else {
+					alert("Select start and end point");
+				}
+			}
+		</script>
 	}
 	@if (SignInManager.IsSignedIn(User))
 	{
@@ -118,13 +137,18 @@
 				var secondDopwDown = document.getElementById("select2");
 				var endPoint = secondDopwDown.options[secondDopwDown.selectedIndex].value;
 				var endPointName = secondDopwDown.options[secondDopwDown.selectedIndex].text;
-				$.post("/Favourite/Create",
-					{ start: startPoint, end: endPoint, startName: startPointName, endName: endPointName },
-					function (data) {
-						if (data.success) {
-							alert("Succesfully saved to database: " + startPointName + " " + endPointName);
-						}
-					});
+				if (startPoint >= 0 && endPoint >= 0) {
+					$.post("/Favourite/Create",
+						{ start: startPoint, end: endPoint, startName: startPointName, endName: endPointName },
+						function (data) {
+							if (data.success) {
+								alert("Succesfully saved to database: " + startPointName + " " + endPointName);
+							}
+						});
+				}
+				else {
+					alert("Select start and end point");
+				}
 			}
 		</script>
 	}
