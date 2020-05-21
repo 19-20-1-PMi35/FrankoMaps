@@ -1,5 +1,4 @@
 points = [];
-maps = [];
 
 currentMapId = undefined;
 
@@ -10,42 +9,12 @@ onInit();
 
 function onInit() {
     getAllPoints();
-    getAllMaps();
 }
 
 function getAllPoints() {
     fetch('/Points/GetPoints')
         .then(response => response.json())
         .then(allPoints => points = allPoints);
-}
-
-function getAllMaps() {
-    fetch('/Maps/GetMaps')
-    .then(response => response.json())
-    .then(allMaps => {
-        console.log('in getallmaps')
-        console.log(allMaps);
-        setContainersSize(allMaps);
-        
-        maps = allMaps;
-    });
-}
-
-function setContainersSize(allMaps){
-    for (let i = 0; i < allMaps.length; ++i) {
-        let mapImg = document.getElementById(`img-${allMaps[i].id}`);
-        let svgCointainer = document.getElementById(`svg-container-${allMaps[i].id}`);
-        let mapContainer = document.getElementById(`map-container-${allMaps[i].id}`);
-        
-        svgCointainer.setAttribute("height", `${mapImg.height}px`);
-        svgCointainer.setAttribute("width", `${mapImg.width}px`);
-        
-        mapContainer.style.display = 'none';
-    }
-
-    currentMapId = allMaps[0].id;
-    let mapContainer = document.getElementById(`map-container-${currentMapId}`);
-    mapContainer.style.display = 'block';
 }
 
 function chooseMap(mapId){
@@ -60,7 +29,8 @@ function chooseMap(mapId){
 
 function getTheShortestPath() {
     if (startPointId && endPointId && startPointId != endPointId) {
-        fetch(`/Maps/GetFromTo?fromId=${startPointId}&toId=${endPointId}`)
+        let mapId = points.find(p => p.id == startPointId).mapId;
+        fetch(`/Maps/GetFromTo?fromId=${startPointId}&toId=${endPointId}&mapId=${mapId}`)
         .then(response => response.json())
         .then(path => {
             let linePoints = "";
@@ -72,7 +42,7 @@ function getTheShortestPath() {
                     linePoints += `${point.x},${point.y} `;
             }
 
-            document.getElementById("line").setAttribute("points", linePoints);
+            document.getElementById(`line-${mapId}`).setAttribute("points", linePoints);
         }
         );
     }

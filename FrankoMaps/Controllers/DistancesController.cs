@@ -33,6 +33,8 @@ namespace FrankoMaps.Controllers
             _distanceService = distanceService;
             _userManager = userManager;
         }
+
+        [HttpPost]
         public IActionResult Index()
         {
             DistanceRepository distanceRepository = new DistanceRepository();
@@ -71,7 +73,7 @@ namespace FrankoMaps.Controllers
         {
             _distanceService.Create(distance, _userManager.GetUserId(User));
 
-            return RedirectToAction("Index", "Distances");
+            return RedirectToAction("Home", "Manage");
         }
 
         [HttpGet]
@@ -85,7 +87,7 @@ namespace FrankoMaps.Controllers
         {
             _distanceService.UpdateDistance(distance, _userManager.GetUserId(User));
 
-            return RedirectToAction("Index", "Distances");
+            return RedirectToAction("Home", "Manage");
         }
 
         [HttpGet]
@@ -100,7 +102,7 @@ namespace FrankoMaps.Controllers
             DistanceRepository distanceRepository = new DistanceRepository();
             distanceRepository.Delete(id);
 
-            return RedirectToAction("Index", "Distances");
+            return RedirectToAction("Home", "Manage");
         }
     }
 }

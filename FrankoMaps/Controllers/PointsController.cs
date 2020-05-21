@@ -45,7 +45,7 @@ namespace FrankoMaps.Controllers
         {
             _pointsService.Create(point, _userManager.GetUserId(User));
 
-            return RedirectToAction("Index", "Maps");
+            return RedirectToAction("Manage", "Home");
         }
 
         [HttpGet]
@@ -58,9 +58,10 @@ namespace FrankoMaps.Controllers
         {
             _pointsService.UpdatePoint(point, _userManager.GetUserId(User));
 
-            return RedirectToAction("Index", "Points");
+            return RedirectToAction("Manage", "Home");
         }
 
+        [HttpPost]
         public IActionResult Index()
         {
             ViewBag.Points = _pointsService.GetPoints();
@@ -84,7 +85,7 @@ namespace FrankoMaps.Controllers
             PointRepository pointRepository = new PointRepository();
             pointRepository.Delete(id);
 
-            return RedirectToAction("Index", "Points");
+            return RedirectToAction("Manage", "Home");
         }
     }
 }

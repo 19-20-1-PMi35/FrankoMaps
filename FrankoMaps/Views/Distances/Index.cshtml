@@ -2,71 +2,33 @@
 
 @{
 	ViewData["Title"] = "Index";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+	Layout = null;
 }
 
 <head>
 	<link rel="stylesheet" href="~/css/table.css" />
 </head>
 
-<h2 style="text-align:center">Distances</h2>
-
-<a asp-controller="Distances" asp-action="Create">Create new distance</a>
-
-<div class="custom-scrollbar-css p-2">
-	<table class="table table-bordered table-striped mb-0">
-		<thead>
-			<tr>
-				@*<th>Id</th>
-				<th>FromPointId</th>*@
-				<th>From</th>
-				@*<th>ToPointId</th>*@
-				<th>To</th>
-				<th>Weight</th>
-				<th>UserId</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var distance in Model)
-			{
-				<tr>
-					@*<td>@distance.Id</td>*@
-					@*<td>@distance.FromPointId</td>*@
-					<td>@distance.NameFrom</td>
-					@*<td>@distance.ToPointId</td>*@
-					<td>@distance.NameTo</td>
-					<td>@distance.Weight</td>
-					<td>@distance.UserId</td>
-					<td>
-						@Html.ActionLink("Update", "Edit", new { Id = distance.Id }) |
-						@Html.ActionLink("Delete", "Delete", new { Id = distance.Id })
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
-</div>
-
-@*<div class="custom-scrollbar-css p-2">
+@*<h2 style="text-align:center">Distances</h2>*@
+<div>
+	<a asp-controller="Distances" asp-action="Create">Create new distance</a>
+	<div class="custom-scrollbar-css p-2">
 		<table class="table table-bordered table-striped mb-0">
 			<thead>
 				<tr>
-					<th>Id</th>
-					<th>FromPointId</th>
-					<th>ToPointId</th>
+					<th>From</th>
+					<th>To</th>
 					<th>Weight</th>
 					<th>UserId</th>
 					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
-				@foreach (var distance in ViewBag.Distances)
+				@foreach (var distance in Model)
 				{
 					<tr>
-						<td>@distance.Id</td>
-						<td>@distance.FromPointId</td>
-						<td>@distance.ToPointId</td>
+						<td>@distance.NameFrom</td>
+						<td>@distance.NameTo</td>
 						<td>@distance.Weight</td>
 						<td>@distance.UserId</td>
 						<td>
@@ -77,4 +39,5 @@
 				}
 			</tbody>
 		</table>
-	</div>*@
+	</div>
+</div>

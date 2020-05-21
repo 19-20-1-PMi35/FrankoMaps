@@ -37,15 +37,9 @@
                         </li>
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark list-group-item list-group-item-action" asp-area="" asp-controller="Maps" asp-action="Create">Add new map</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark list-group-item list-group-item-action" asp-area="" asp-controller="Distances" asp-action="Index">Manage distances</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark list-group-item list-group-item-action" asp-area="" asp-controller="Points" asp-action="Index">Manage points</a>
-                            </li>
+                          <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Manage">Manage</a>
+                          </li>
                         }
                     </ul>
                 </div>

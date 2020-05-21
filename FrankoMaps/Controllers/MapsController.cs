@@ -34,8 +34,8 @@ namespace FrankoMaps.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet]
-        public ActionResult Create()
+        [HttpPost]
+        public ActionResult CreateMap()
         {
             return View();
         }
@@ -46,7 +46,7 @@ namespace FrankoMaps.Controllers
         {
             _mapService.Create(map, _userManager.GetUserId(User));
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Maps");
         }
 
         public IActionResult Index()
@@ -55,9 +55,9 @@ namespace FrankoMaps.Controllers
             ViewBag.Maps = _mapService.GetMaps();
             return View();
         }
-        public int[] GetFromTo(int fromId, int toId)
+        public int[] GetFromTo(int fromId, int toId,int mapId)
         {
-            return _distanceService.GetTheShortestPath(fromId, toId);
+            return _distanceService.GetTheShortestPath(fromId, toId, mapId);
         }
         public List<MapViewModel> GetMaps()
         {
