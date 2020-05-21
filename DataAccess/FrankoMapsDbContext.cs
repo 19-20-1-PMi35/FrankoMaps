@@ -13,6 +13,7 @@ namespace DataAccess
         public DbSet<Distance> Distances { get; set; }
         public DbSet<Map> Maps { get; set; }
         public DbSet<Point> Points { get; set; }
+        public DbSet<Favourite> Favourites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
