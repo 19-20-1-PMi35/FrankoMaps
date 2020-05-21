@@ -55,9 +55,9 @@ namespace FrankoMaps.Controllers
             ViewBag.Maps = _mapService.GetMaps();
             return View();
         }
-        public int[] GetFromTo(int fromId, int toId)
+        public int[] GetFromTo(int fromId, int toId,int mapId)
         {
-            return _distanceService.GetTheShortestPath(fromId, toId);
+            return _distanceService.GetTheShortestPath(fromId, toId, mapId);
         }
         public List<MapViewModel> GetMaps()
         {
