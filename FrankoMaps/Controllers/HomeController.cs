@@ -36,6 +36,11 @@ namespace FrankoMaps.Controllers
         {
             return View();
         }
+        
+        public IActionResult FavouriteRoutes()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
