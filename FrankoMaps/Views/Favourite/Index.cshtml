@@ -11,32 +11,37 @@
 </head>
 
 <div>
-    <h1>My Favourite Routes</h1>
-    <div class="custom-scrollbar-css p-2">
-        <table class="table table-bordered table-striped mb-0">
-            <thead>
-                <tr>
-                    <th>From auditorium</th>
-                    <th>To auditorium</th>
-                    <th>Action</th>
-                    <th>Manage</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var fav in Model)
-                {
-                <tr>
-                    <td>@fav.NameFrom</td>
-                    <td>@fav.NameTo</td>
-                    <td>
-                        <button style="background-color:#33454e;border-color:black" class="btn btn-danger">Go to</button>
-                    </td>
-                    <td>
-                        @Html.ActionLink("Delete", "Delete", new { Id = fav.Id })
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
+    <div>
+        <h1>My Favourite Routes</h1>
+        <img align="right" width="450" height="350" src="https://i.ibb.co/qmwLFnC/map-icons.jpg" alt="map-icons" border="0">
     </div>
-</div>
+    
+        <div class="custom-scrollbar-css p-2">
+            <table class="table table-bordered table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>From auditorium</th>
+                        <th>To auditorium</th>
+                        <th>Action</th>
+                        <th>Manage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var fav in Model)
+                    {
+                        <tr>
+                            <td>@fav.NameFrom</td>
+                            <td>@fav.NameTo</td>
+                            <td>
+                                <button style="background-color:#33454e;border-color:black" class="btn btn-danger">Go to</button>
+                            </td>
+                            <td>
+                                @Html.ActionLink("Delete", "Delete", new { Id = fav.Id })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+       
+    </div>

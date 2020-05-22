@@ -66,6 +66,5 @@ namespace FrankoMaps.Controllers
 
             return RedirectToAction("Index", "Favourite");
         }
-
     }
 }

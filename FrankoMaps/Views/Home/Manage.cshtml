@@ -1,44 +1,46 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Manage";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<head>
+    <style>
+    </style>
+</head>
 
-    <div>
+<h1 style="text-align:center">Manage FrankoMaps</h1>
 
-        <img style="margin-top:0px; " align="left" src="https://i.ibb.co/jHn3BSk/efwrhtjyu.jpg" alt="mapsnew" border="0">
-        <h1 style="text-align: right; font-size: 50px">Admin Manage page</h1>
-        <h2 style="margin-top: 50px; text-align: right; font-family: Calibri;  font-size: 30px">(c)FrankoMaps</h2>
+<div style="        width: 100%;
+        height: 500px;
+        background-image: url(https://i.ibb.co/7vWKWv0/map-comp.jpg); background-repeat: no-repeat; background-position:top;
+">
+    <p>
+        <button style="margin:0 auto;width:200px;" class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="test()">
+            Manage Points
+        </button>
+    </p>
+    <div class="collapse" id="collapseExample">
+        <div id="divmain" class="card card-body">
+        </div>
+    </div>
+    <p>
+        <button style="margin:0 auto;width:200px;" class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2" onclick="test2()">
+            Manage distances
+        </button>
+    </p>
+    <div class="collapse" id="collapseExample2">
+        <div id="divmain2" class="card card-body">
+        </div>
+    </div>
+    <p>
+        <button style="margin:0 auto;width:200px;" class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3" onclick="test3()">
+            Add new map
+        </button>
+    </p>
+    <div class="collapse" id="collapseExample3">
+        <div id="divmain3" class="card card-body">
+        </div>
+    </div>
 
-<div>
-<p  style="text-align: center">
-    <button style="background-color:#33454e;border-color:black" class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample3" onclick="test3()">
-        Add new map
-    </button>
-</p>
-<div class="collapse" id="collapseExample3">
-    <div id="divmain3" class="card card-body">
-    </div>
-</div>
-</div>
-<p></p>
-<p>
-    <button style="border-color:black; background-color:#33454e" class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="test()">
-        Manage Points
-    </button>
-</p>
-<div class="collapse" id="collapseExample">
-    <div id="divmain" class="card card-body">
-    </div>
-</div>
-<p>
-    <button style="border-color:black; background-color:#33454e" class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2" onclick="test2()">
-        Manage distances
-    </button>
-</p>
-<div class="collapse" id="collapseExample2">
-    <div id="divmain2" class="card card-body">
-    </div>
 </div>
 
 <script>
