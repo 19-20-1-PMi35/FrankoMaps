@@ -25,20 +25,46 @@ namespace FrankoMaps.Controllers
             _favouritesService = favouritesService;
             _userManager = userManager;
         }
+        [HttpGet]
+        public IActionResult Index()
+        {
+            FavouriteRepository favouriteRepository = new FavouriteRepository();
+            List<Favourite> favourites = favouriteRepository.GetItems().Where(f => f.User_Id == _userManager.GetUserId(User)).ToList();
+            
+            PointRepository pointRepository = new PointRepository();
+            List<Point> points = pointRepository.GetItems();
+
+            List<JoinViewModel> joined = new List<JoinViewModel>();
+            foreach(var el in favourites)
+            {
+                joined.Add(new JoinViewModel()
+                {
+                    Id = el.Id, 
+                    NameFrom = points.First(p => p.Id == el.PointA_Id).Name,
+                    NameTo = points.First(p => p.Id == el.PointB_Id).Name
+                });
+            }
+
+            return View(joined);
+        }
 
         [AllowAnonymous]
         [HttpPost]
-         public ActionResult Create(int start, int end)
-         {
-             FavouriteViewModel favourite = new FavouriteViewModel() { PointA_Id = start, PointB_Id = end , User_Id = _userManager.GetUserId(User)};
-             _favouritesService.Create(favourite);
-
-             return Json(new { success = true });
-         }
-
-        public IActionResult Index()
+        public ActionResult Create(int start, int end)
         {
-            return View();
+            FavouriteViewModel favourite = new FavouriteViewModel() { PointA_Id = start, PointB_Id = end , User_Id = _userManager.GetUserId(User)};
+            _favouritesService.Create(favourite);
+
+            return Json(new { success = true });
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            FavouriteRepository favouriteRepository = new FavouriteRepository();
+            favouriteRepository.Delete(id);
+
+            return RedirectToAction("Index", "Favourite");
         }
     }
 }
