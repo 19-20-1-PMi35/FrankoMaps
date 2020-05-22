@@ -50,14 +50,22 @@ namespace FrankoMaps.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-         public ActionResult Create(int start, int end)
-         {
-             FavouriteViewModel favourite = new FavouriteViewModel() { PointA_Id = start, PointB_Id = end , User_Id = _userManager.GetUserId(User)};
-             _favouritesService.Create(favourite);
+        public ActionResult Create(int start, int end)
+        {
+            FavouriteViewModel favourite = new FavouriteViewModel() { PointA_Id = start, PointB_Id = end , User_Id = _userManager.GetUserId(User)};
+            _favouritesService.Create(favourite);
 
-             return Json(new { success = true });
-         }
+            return Json(new { success = true });
+        }
 
-     
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            FavouriteRepository favouriteRepository = new FavouriteRepository();
+            favouriteRepository.Delete(id);
+
+            return RedirectToAction("Index", "Favourite");
+        }
+
     }
 }
